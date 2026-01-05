@@ -1,8 +1,16 @@
 <script setup>
 import { ref } from 'vue'
+import Area from './Area.vue'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
+
+const areas = ref([
+  { id: 1, place: 'Area 1', desc: 'A place',  },
+  { id: 2, place: 'Area 2', desc: 'Another place' },
+  { id: 3, place: 'Area 3', desc: 'Yet another place' }
+])
+
 </script>
 
 <template>
@@ -11,7 +19,14 @@ let sectionSelection = ref('tech')
         <img class="pfp" src="@assets/images/pfp.jpg" height="208px" width="208px">
       </div> -->
     <h2>Areas</h2>
-    <p>Land Of Confusion</p>
+
+    <Area
+      v-for="area in areas"
+      :key="area.id"
+      :title="area.place"
+      :desc="area.desc"
+	  ></Area>
+     
   </div>
 </template>
 
