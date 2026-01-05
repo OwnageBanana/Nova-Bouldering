@@ -1,0 +1,188 @@
+@import url('@assets/modules/themes.module.css');
+@import url('@assets/modules/icons.module.css');
+/* @import url("@assets/modules/fonts.module.css"); */
+
+/* styles.css contains the majority of the styling needed for the base site that is used on every page */
+/* this transition is used for light/dark mode.
+   TODO apply as a temportary class to not override other transitions */
+* {
+  transition: color 0.01s linear;
+}
+
+.full-view {
+  height: auto;
+  width: auto;
+  /* mobile helper */
+  min-height: 100%; /* fallback */
+  min-height: 100vh;
+}
+
+html {
+  font-size: 16px;
+  font-weight: normal;
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--main-darker);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  height: auto;
+  width: auto;
+  width: 100%;
+  /* mobile helper */
+  min-height: 100%; /* fallback */
+  min-height: 100vh;
+}
+
+/* @media (min-width: 640px){
+  html {
+  }
+}
+
+@media (min-width: 1024px){
+  html {
+  }
+} */
+
+body {
+  background-color: var(--complement-lighter);
+  margin: 0px;
+
+  height: auto;
+  width: auto;
+  /* mobile helper */
+  min-height: 100%; /* fallback */
+  min-height: 100vh;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+@media (min-width: 640px) {
+  p {
+    text-align: justify;
+  }
+}
+/* @media(min-width: 1024px){
+  dt,dd,p {
+    max-width: 80ch;
+  }
+} */
+/* List element */
+dt {
+  padding-left: 1rem;
+}
+dt::before {
+  content: '•';
+  font-family: 'Courier New', Courier, monospace;
+  margin-right: 0.5rem;
+  margin-left: -1rem;
+}
+dd {
+  padding-left: 1rem;
+  margin-inline-start: 1.5rem;
+}
+dd::before {
+  content: '◦';
+  font-family: 'Courier New', Courier, monospace;
+  margin-right: 0.5rem;
+  margin-left: -1rem;
+}
+
+/* italics element */
+i {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* anchor element */
+a {
+  color: var(--complement-bright);
+  cursor: pointer;
+}
+
+a:hover {
+  color: var(--complement-light);
+}
+a.invisible {
+  color: inherit;
+  text-decoration: inherit;
+}
+a.invisible:hover {
+  color: inherit;
+}
+
+/* active link */
+a.router-link-active {
+  color: var(--contrast);
+}
+a.router-link-active:hover {
+  color: var(--contrast);
+}
+
+/*anchor element: dark */
+html.dark a:hover {
+  color: var(--complement);
+}
+html.dark a.invisible:hover {
+  color: inherit;
+}
+
+html.dark a.router-link-active:hover {
+  color: var(--contrast);
+}
+
+@media (min-width: 640px) {
+  br {
+    display: none;
+  }
+}
+
+code {
+  background-color: var(--complement-light);
+  color: var(--main-dark);
+  padding: 0 0.2rem;
+}
+
+html.dark code {
+  background-color: var(--complement-light);
+  color: var(--main-dark);
+  padding: 0 0.2rem;
+}
+
+a.inline-anchor {
+  justify-self: inline;
+  display: contents;
+}
+
+q {
+  display: block;
+  font-weight: 200;
+}
+
+cite {
+  display: block;
+  padding-left: 1rem;
+}
+
+pre {
+  overflow-x: auto;
+}

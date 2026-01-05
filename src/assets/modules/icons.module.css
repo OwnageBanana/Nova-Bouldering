@@ -1,0 +1,33 @@
+i.icon {
+  margin: 0 0.5rem;
+}
+
+@media (min-width: 640px) {
+  i.icon {
+    margin: 0 1rem;
+  }
+}
+
+svg {
+  fill: var(--complement-bright);
+  height: 2rem;
+  width: auto;
+  transition: fill 0.15 ease;
+}
+svg:hover {
+  fill: var(--complement-light);
+}
+html.dark svg:hover {
+  fill: var(--complement);
+}
+
+/* icon links */
+a > i > svg {
+  height: 2rem;
+  width: 2rem;
+}
+a > i > svg.icon-small {
+  margin: auto 0;
+  height: 1.5rem;
+  width: 1.5rem;
+}

@@ -4,12 +4,6 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<Record<string, unknown>, Record<string, unknown>, any>
-  export default component
-}
-
 // On page load or when changing themes, best to add inline in `head` to avoid FOUC
 if (
   localStorage.theme === 'dark' ||

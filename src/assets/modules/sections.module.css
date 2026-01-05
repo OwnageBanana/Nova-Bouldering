@@ -1,0 +1,73 @@
+
+.section-heading {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.section-button {
+  font-size:inherit;
+  font:inherit;
+  color:inherit;
+  background-color:inherit;
+  border:none;
+  text-align: left;
+  width:100%;
+  padding:0.5rem 0rem;
+  margin: 0.25rem 0;
+  transition: all 0.1s ease;
+}
+
+/* essentially disabling sections on small breakpoints and making them look as though they are just heading */
+@media (min-width: 360px){
+  .section-button {
+    padding:1rem 0.5rem;
+  }
+  .section-button:hover {
+    cursor: pointer;
+    background-color:var(--complement-light);
+  }
+
+  .section-button:hover {
+    cursor: pointer;
+    background-color:var(--complement-light);
+  }
+  .section-button::after {
+    content: ":";
+    margin-left: -0.5rem;
+  }
+  .section-button::after {
+    margin-left: 0rem;
+    content: " +";
+  }
+  .section-heading.active .section-button::after {
+    content: " -";
+  }
+  .section.hidden-section {
+    min-height:0;
+    max-height:0;
+    flex:0;
+    overflow-y: hidden;
+  }
+}
+
+.section {
+  display:flex;
+  flex-direction:column;
+  transition: flex, min-height, max-height 0.15s ease-in-out;
+  height:inherit;
+  overflow-y: auto;
+  flex:1;
+}
+
+
+/*
+Usage:
+<span>
+<button class="section-button" @click="sectionSelection = 'tech'">some of my favorite technology</button>
+</span>
+<div :class="['section', sectionSelection !== 'tech'? 'hidden-section':'']" >
+  lorem ipsum
+</div>
+ask me how I'd do it without javascript ;)
+and in components using the sections specify a wrapping container with a max height and a max height
+ */

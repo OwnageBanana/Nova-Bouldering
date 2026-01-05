@@ -1,0 +1,89 @@
+
+/* @media (prefers-color-scheme: light) { */
+/*   :root{
+    --main-darker:#081120;
+    --main-dark:#002B7A;
+    --main-dark:#255abd;
+    --main-light: #D7F9FF;
+    --main-lighter: #ebfbfd;
+
+    --contrast-darker: #823b0b;
+    --contrast-dark: #c47038;
+    --contrast: #ffa56a;
+    --contrast-light: #FFEDE1;
+
+    --complement-light: #F9FBF2;
+  } */
+/* desaturated, warmer colours */
+:root{
+  --main-darker:#121216;
+  --main-dark:#313548;
+  --main:#425096;
+  --main-light: #bfd6dd;
+  --main-lighter: #E7EDEF;
+
+  --contrast-darker: #823b0b;
+  --contrast-dark: #c47038;
+  --contrast: #ffa56a;
+  --contrast-bright: #f5751f;
+  --contrast-light: #FFEDE1;
+
+
+  --complement-darker: #111f05;
+  --complement-dark: #2c411b;
+  --complement: #567041;
+  --complement-bright: #42b94e;
+  --complement-light: #bfceb3;
+  --complement-lighter: #F8F9F6;
+}
+/* the names in the dark theme are really going to represent to oposite of what they say,
+like main-darker is the lightest color. but this lets me not have to write dark css for everything and makes
+inverting easy */
+:root.dark {
+  --main-darker: #fffdfb;
+  /* #121216; */
+  --main-dark:#FFEDE1;
+  /* //#313548; */
+  --main:#425096;
+  --main-light: #313548;;
+  --main-lighter: #121216;
+
+  --contrast-darker: #823b0b;
+  --contrast-dark: #c47038;
+  --contrast: #ffa56a;
+  --contrast-light: #ffd7bd;
+  --contrast-lighter: #fff3ea;
+
+
+  --complement-darker: #111f05;
+  --complement-dark: #2c411b;
+  --complement: #2c5221;
+  --complement-bright: #3f9735;
+  --complement-light: #2c2c2c;
+  --complement-lighter: #1b1a1a;
+  /* --complement-lighter: #141414; */
+}
+/* @media (prefers-color-scheme: dark) { */
+  /* :root{
+    --main-darker:#121216;
+    --main-dark:#313548;
+    --main:#425096;
+    --main-light: #bfd6dd;
+    --main-lighter: #E7EDEF;
+
+    --contrast-darker: #823b0b;
+    --contrast-dark: #c47038;
+    --contrast: #ffa56a;
+    --contrast-light: #FFEDE1;
+
+
+    --complement-darker: #111f05;
+    --complement-dark: #2c411b;
+    --complement: #567041;
+    --complement-bright: #42b983;
+    --complement-light: #2c2c2c;
+    --complement-lighter: #141414;
+  } */
+
+/* } */
+
