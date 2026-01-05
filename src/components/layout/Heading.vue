@@ -28,7 +28,7 @@ const themeChange = function () {
   <div class="header">
     <div class="container">
       <div class="heading">
-        <h1><a class="invisible" @click="nav('/home')">Nova Bouldering</a></h1>
+        <h1><a class="invisible" @click="nav('/')">Nova Bouldering</a></h1>
       </div>
       <div class="nav-container">
         <nav>
