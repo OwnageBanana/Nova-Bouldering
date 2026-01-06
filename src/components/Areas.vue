@@ -26,7 +26,7 @@ const areas = ref([
       :title="area.place"
       :desc="area.desc"
 	  ></Area>
-     
+
   </div>
 </template>
 
