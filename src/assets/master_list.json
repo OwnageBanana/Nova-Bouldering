@@ -218,5 +218,28 @@
     "Grade": 5,
     "Sit Start": "FALSE",
     "Beta": "Lorem ipsumCrag"
+  },
+
+    {
+    "Zone": "Peggy's Cove",
+    "Crag": "Land of Confusion",
+    "Area": "Butt Fartly",
+    "Bloc": "Lower Boulder",
+    "Bloc Face": "South",
+    "Line": "Milking The Cow (Stand)",
+    "Grade": 5,
+    "Sit Start": "FALSE",
+    "Beta": "Lorem ipsumCrag"
+  },
+      {
+    "Zone": "Peggy's Cove",
+    "Crag": "Land of Clarity",
+    "Area": "A Real Area",
+    "Bloc": "Lower Boulder",
+    "Bloc Face": "South",
+    "Line": "Milking The Cow (Stand)",
+    "Grade": 5,
+    "Sit Start": "FALSE",
+    "Beta": "Lorem ipsumCrag"
   }
 ]

@@ -25,7 +25,7 @@ const { boulderName = 'No Name Yet' } = defineProps(['boulderName'])
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--compliment-lighter);
+  background-color: var(--complement-light);
 }
 
 .boulderPhoto {

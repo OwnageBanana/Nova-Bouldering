@@ -34,7 +34,7 @@ const themeChange = function () {
         <nav>
           <router-link to="/">Home</router-link>
           <router-link to="/about">About</router-link>
-          <router-link to="/areas">Areas</router-link>
+          <router-link to="/crags">Crags</router-link>
           <router-link to="/cragtest">Crag Test</router-link>
         </nav>
         <div class="theme-icon">

@@ -1,40 +1,41 @@
 <script setup>
-
 import { ref } from 'vue'
-import Area from './Area.vue'
+import CragObj from './Crag.vue'
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import rawData from '@assets/master_list.json'; 
-import { processData } from './DataProcessor';
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
 
-const route = useRoute();
+import rawData from '@assets/master_list.json'; 
+import { processData } from './DataProcessor';
 
-//receive zone and crag name from router
-const props = defineProps(['zoneName', 'cragName']);
+const targetZone = "Peggy's Cove";
 
+// 1. Process the map
 const dataMap = processData(rawData);
 
-const areaList = computed(() => {
-  const zone = dataMap[props.zoneName];
-  if (zone && zone[props.cragName]) {
-    return Object.keys(zone[props.cragName]);
+// 2. Get the list of crags keys for the specific zone
+const cragsList = computed(() => {
+  if (dataMap[targetZone]) {
+    return Object.keys(dataMap[targetZone]);
   }
   return [];
 });
+
 </script>
 
 <template>
   <div class="layout">
-    <!-- makes breadcrumb.. .yummy...-->
-    <h2>{{ zoneName }} > {{ cragName }}</h2>
+
+    <h2>{{ targetZone }}</h2>
     
-    <div v-if="areaList.length > 0">
-      <Area v-for="area in areaList" :key="area" :title="area"></Area>
+    <div v-if="cragsList.length > 0">
+      <CragObj v-for="crag in cragsList" :key="crag" :title="crag" :origin="targetZone"></CragObj>
     </div>
-    <p v-else>No areas found for this crag.</p>
+    
+    <!--fallback-->
+    <p v-else>No crags found for this zone.</p>
+
   </div>
 </template>
 

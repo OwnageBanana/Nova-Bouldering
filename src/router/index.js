@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // import Home from "@components/Home.vue"
 import About from '@components/About.vue'
+import Crags from '@components/Crags.vue'
 import Areas from '@components/Areas.vue'
 import CragTest from '@components/CragTest.vue'
 const router = createRouter({
@@ -10,7 +11,8 @@ const router = createRouter({
     // { path: '/', component: Home },
     // { path: '/home', component: Home },
     { path: '/about', component: About },
-    { path: '/areas', component: Areas },
+    { path: '/crags', component: Crags },
+    { path: '/crags/:zoneName/:cragName', name: 'areas', component: Areas, props: true },
     { path: '/cragtest', component: CragTest }
   ],
 })
