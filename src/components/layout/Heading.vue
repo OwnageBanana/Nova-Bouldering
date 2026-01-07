@@ -35,6 +35,7 @@ const themeChange = function () {
           <router-link to="/">Home</router-link>
           <router-link to="/about">About</router-link>
           <router-link to="/areas">Areas</router-link>
+          <router-link to="/cragtest">Crag Test</router-link>
         </nav>
         <div class="theme-icon">
           <a @click="themeChange">

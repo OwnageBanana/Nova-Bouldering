@@ -1,5 +1,8 @@
-<script setup>
+﻿<script setup>
 import { ref } from 'vue'
+
+import Boulder from './Objects/Boulder.vue'
+import Problem from './Objects/Problem.vue'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
@@ -7,16 +10,42 @@ let sectionSelection = ref('tech')
 
 <template>
   <div class="layout">
-    <!--<div class="pfp-container">
+    <!-- <div class="pfp-container">
         <img class="pfp" src="@assets/images/pfp.jpg" height="208px" width="208px">
       </div> -->
-    <h2>About Us:</h2>
-    <p>Community driven, fully open, bouldering topo directory for Nova scotia.</p>
+
+    <div class="boulder">
+      <Boulder></Boulder>
+      <Problem></Problem>
+      <Problem></Problem>
+      <Problem></Problem>
+    </div>
+
+    <div class="boulder">
+      <Boulder></Boulder>
+      <Problem></Problem>
+      <Problem></Problem>
+      <Problem></Problem>
+    </div>
+
+    <div class="boulder">
+      <Boulder></Boulder>
+      <Problem></Problem>
+      <Problem></Problem>
+      <Problem></Problem>
+    </div>
+
   </div>
 </template>
 
 <style scoped>
 @import url('@assets/modules/sections.module.css');
+
+.boulder {
+    width: 80%;
+    margin: 25px;
+    display: flexbox;
+}
 
 .layout {
   display: flex;
