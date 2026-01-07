@@ -6,7 +6,7 @@ const { boulderName = 'No Name Yet' } = defineProps(['boulderName'])
   <div class="parent">
     <div class="boulderName">{{ boulderName }}</div>
     <div class="boulderPhoto">
-      <img src="../../assets/Images/Boulder_Image.jpg" />
+      <img src="@assets/images/Boulder_Image.jpg" />
     </div>
   </div>
 </template>
