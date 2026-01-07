@@ -16,10 +16,10 @@ const nav = function (path) {
 }
 const themeChange = function () {
   document.documentElement.classList.toggle('dark')
-  if (localStorage.theme) {
-    localStorage.removeItem('theme')
+  if (document.documentElement.classList.contains('dark')) {
+    localStorage.setItem('theme', 'dark')
   } else {
-    localStorage['theme'] = 'dark'
+    localStorage.setItem('theme', 'light')
   }
 }
 </script>

@@ -132,13 +132,17 @@ const toggleRows = () => {
 .lineBeta {
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--complement-lighter);
+  border-left: black solid 1px;
+  border-right: black solid 1px;
 }
 
 .lineFA {
   grid-area: 3 / 1 / 4 / 6;
   width: 100%;
   display: grid;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--complement-lighter);
+  border-left: black solid 1px;
+  border-right: black solid 1px;
 }
 </style>
