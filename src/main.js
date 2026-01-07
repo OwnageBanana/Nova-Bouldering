@@ -10,12 +10,8 @@ if (
   (localStorage.getItem('theme') === undefined &&
     window.matchMedia('(prefers-color-scheme: dark)').matches)
 ) {
-  console.log('asdf')
-
   document.documentElement.classList.add('dark')
 } else {
-  console.log('qawer')
-
   document.documentElement.classList.remove('dark')
 }
 
