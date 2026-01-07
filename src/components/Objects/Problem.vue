@@ -1,9 +1,16 @@
 ﻿<script setup>
 import { ref } from 'vue'
+import { Attribute } from '../ProblemAttributes.ts'
+import { getAttributeImage } from '../ProblemAttributes.ts';
 
-const { grade = "?", lineName = "No Name", beta = "Theres no beta yet!", fa = "None", attr1, attr2, attr3 } = defineProps([
+const { grade = "?", lineName = "No Name", beta = "Theres no beta yet!", fa = "None", attr1 = "strong", attr2 = "highball", attr3 = "sharp" } = defineProps([
   'grade', 'lineName', 'beta', 'fa', 'attr1', 'attr2', 'attr3'
 ]);
+
+const attr1Icon = getAttributeImage(attr1);
+const attr2Icon = getAttributeImage(attr2);
+const attr3Icon = getAttributeImage(attr3);
+
 
 const isOpen = ref(false) //for expanding beta & fa
 
@@ -21,9 +28,9 @@ const toggleRows = () => {
       {{lineName}}
     </div>
 
-    <div class="attr1" @click="toggleRows">{{ attr1 }}</div>
-    <div class="attr2" @click="toggleRows">{{ attr2 }}</div>
-    <div class="attr3" @click="toggleRows">{{attr3}}</div>
+    <div class="attr1" @click="toggleRows"><img :src="attr1Icon" width="25px"/> </div>
+    <div class="attr2" @click="toggleRows"><img :src="attr2Icon" width="25px"/></div>
+    <div class="attr3" @click="toggleRows"><img :src="attr3Icon" width="25px"/></div>
 
     <div class="lineBeta">
       <div style="margin: 15px;">{{ beta }}</div>
