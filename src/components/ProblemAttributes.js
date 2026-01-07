@@ -3,23 +3,17 @@ import strongIcon from "../assets/icons/muscle.png";
 import delicateIcon from "../assets/icons/thin.png";
 import highballIcon from "../assets/icons/mountain.png";
 
-export enum Attribute {
-  STRONG = 'strong',
-  HIGHBALL = 'highball',
-  DELICATE = 'delicate',
-  SHARP = 'sharp'
-}
 
-export function getAttributeImage(attr: Attribute) {
+export function getAttributeImage(attr) {
 
   switch(attr) {
-    case Attribute.STRONG:
+    case "strong":
       return strongIcon;
-    case Attribute.HIGHBALL:
+    case "highball":
       return highballIcon;
-    case Attribute.DELICATE:
+    case "delicate":
       return delicateIcon;
-    case Attribute.SHARP:
+    case "sharp":
       return sharpIcon;
 
   }

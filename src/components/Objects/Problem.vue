@@ -1,7 +1,6 @@
 ﻿<script setup>
 import { ref } from 'vue'
-import { Attribute } from '../ProblemAttributes.ts'
-import { getAttributeImage } from '../ProblemAttributes.ts'
+import { getAttributeImage } from '../ProblemAttributes.js'
 
 const {
   grade = '?',
