@@ -1,8 +1,8 @@
 ﻿<script setup>
 import { ref } from 'vue'
 
-import Boulder from './Objects/Boulder.vue'
-import Problem from './Objects/Problem.vue'
+import Boulder from './Boulder.vue'
+import Problem from './Problem.vue'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')

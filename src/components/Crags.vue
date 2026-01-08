@@ -6,15 +6,13 @@ import { computed } from 'vue';
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
 
-import rawData from '@assets/master_list.json'; 
+import rawData from '@assets/master_list.json';
 import { processData } from './DataProcessor';
 
 const targetZone = "Peggy's Cove";
 
-// 1. Process the map
 const dataMap = processData(rawData);
 
-// 2. Get the list of crags keys for the specific zone
 const cragsList = computed(() => {
   if (dataMap[targetZone]) {
     return Object.keys(dataMap[targetZone]);
@@ -28,11 +26,11 @@ const cragsList = computed(() => {
   <div class="layout">
 
     <h2>{{ targetZone }}</h2>
-    
+
     <div v-if="cragsList.length > 0">
-      <CragObj v-for="crag in cragsList" :key="crag" :title="crag" :origin="targetZone"></CragObj>
+      <CragObj v-for="crag in cragsList" :key="crag" :crag="crag" :zone="targetZone"></CragObj>
     </div>
-    
+
     <!--fallback-->
     <p v-else>No crags found for this zone.</p>
 

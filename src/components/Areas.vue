@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import Area from './Area.vue'
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import rawData from '@assets/master_list.json'; 
+import rawData from '@assets/master_list.json';
 import { processData } from './DataProcessor';
 
 // using string matching because I need radio button like flow on selected sections
@@ -17,7 +17,7 @@ const props = defineProps(['zoneName', 'cragName']);
 
 const dataMap = processData(rawData);
 
-const areaList = computed(() => {
+  const areaList = computed(() => {
   const zone = dataMap[props.zoneName];
   if (zone && zone[props.cragName]) {
     return Object.keys(zone[props.cragName]);
@@ -30,9 +30,9 @@ const areaList = computed(() => {
   <div class="layout">
     <!-- makes breadcrumb.. .yummy...-->
     <h2>{{ zoneName }} > {{ cragName }}</h2>
-    
+
     <div v-if="areaList.length > 0">
-      <Area v-for="area in areaList" :key="area" :title="area"></Area>
+      <Area v-for="area in areaList" :key="area" :area="area" :crag="cragName" :zone="zoneName"></Area>
     </div>
     <p v-else>No areas found for this crag.</p>
   </div>

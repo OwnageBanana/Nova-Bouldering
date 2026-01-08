@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import About from '@components/About.vue'
 import Crags from '@components/Crags.vue'
 import Areas from '@components/Areas.vue'
+import Boulders from '@components/Boulders.vue'
 import CragTest from '@components/CragTest.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,7 @@ const router = createRouter({
     { path: '/about', component: About },
     { path: '/crags', component: Crags },
     { path: '/crags/:zoneName/:cragName', name: 'areas', component: Areas, props: true },
+    { path: '/crags/:propZoneName/:propCragName/:propAreaName', name: 'boulders', component: Boulders, props: true },
     { path: '/cragtest', component: CragTest }
   ],
 })

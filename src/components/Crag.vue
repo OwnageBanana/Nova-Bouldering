@@ -1,13 +1,13 @@
 ﻿<script setup>
 import { computed } from 'vue';
 
-const props = defineProps(['title', 'origin']);
+const props = defineProps(['zone', 'crag']);
 </script>
 
 <template>
     <div class="cragDiv">
-        <div @click="$router.push({ name: 'areas', params: { zoneName: origin, cragName: title } })">
-            <h2>{{ title }}</h2>
+        <div @click="$router.push({ name: 'areas', params: { zoneName: zone, cragName: crag } })">
+            <h2>{{ crag }}</h2>
         </div>
     </div>
 </template>

@@ -1,6 +1,6 @@
 ﻿<script setup>
 import { ref } from 'vue'
-import { getAttributeImage } from '../ProblemAttributes.js'
+import { getAttributeImage } from './ProblemAttributes.js'
 
 const {
   grade = '?',
@@ -24,6 +24,7 @@ const toggleRows = () => {
 </script>
 
 <template>
+  <div class="layout">
   <div class="parent" :class="{ 'is-open': isOpen }">
     <div class="lineGrade" @click="toggleRows">V{{ grade }}</div>
 
@@ -43,6 +44,7 @@ const toggleRows = () => {
       <div style="margin: 15px">FA: {{ fa }}</div>
     </div>
   </div>
+</div>
 </template>
 
 <style>
@@ -129,6 +131,7 @@ const toggleRows = () => {
 
 /* Row-spanning bars */
 .lineBeta {
+  display: grid;
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
   background-color: var(--complement-lighter);

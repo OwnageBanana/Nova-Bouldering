@@ -1,7 +1,7 @@
 ﻿<script setup>
 import { computed } from 'vue';
 
-const props = defineProps(['title']);
+const props = defineProps(['area', 'crag', 'zone']);
 
 const areaURL = computed(() => {
     return encodeURIComponent(props.title);
@@ -11,11 +11,11 @@ const areaURL = computed(() => {
 
 <template>
     <div class="areaDiv">
-        
-        <div @click="$router.push(areaURL)">
-            <h2>{{ title }}</h2>
+
+        <div @click="$router.push({ name: 'boulders', params: { propZoneName: zone, propCragName: crag, propAreaName: area } })">
+            <h2>{{ area }}</h2>
         </div>
-        
+
     </div>
 </template>
 
