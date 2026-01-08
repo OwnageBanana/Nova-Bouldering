@@ -18,7 +18,10 @@ const lineList = computed(() => {
   //this is probably silly
   if (zone && zone[props.cragName] && zone[props.cragName][props.areaName] && zone[props.cragName][props.areaName][props.boulderName]) {
     const boulder = zone[props.cragName][props.areaName][props.boulderName];
-    return boulder.lines.map(lineObj => lineObj.Line);
+    return boulder.lines.map(lineObj => ({
+      name: lineObj.Line,
+      grade: lineObj.Grade
+    }));
   }
 
   return [];
@@ -32,7 +35,7 @@ const lineList = computed(() => {
       <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" /></div>
     </div>
       <div v-if="lineList.length > 0">
-        <Problem v-for="line in lineList" :key="area" :areaName="area" :cragName="cragName" :zoneName="zoneName" :boulderName="bloc" :lineName="line"></Problem>
+        <Problem v-for="line in lineList" :key="line" :grade="line.grade" :lineName="line.name"></Problem>
     </div>
   </div>
 </template>
