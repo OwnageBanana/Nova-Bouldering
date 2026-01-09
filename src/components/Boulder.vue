@@ -20,7 +20,8 @@ const lineList = computed(() => {
     const boulder = zone[props.cragName][props.areaName][props.boulderName];
     return boulder.lines.map(lineObj => ({
       name: lineObj.Line,
-      grade: lineObj.Grade
+      grade: lineObj.Grade,
+      beta: lineObj.Beta
     }));
   }
 
@@ -32,10 +33,16 @@ const lineList = computed(() => {
   <div class="boulder">
     <div class="parent">
       <div class="boulderName">{{ boulderName }}</div>
+      <div class="drawing-container">
       <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" /></div>
+        <svg class="overlay-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+        <!-- Lines and points will be rendered here via Vue -->
+        <polyline points="100,100 400,250" stroke="red" fill="none" stroke-width="4" />
+      </svg>
+      </div>
     </div>
       <div v-if="lineList.length > 0">
-        <Problem v-for="line in lineList" :key="line" :grade="line.grade" :lineName="line.name"></Problem>
+        <Problem v-for="line in lineList" :key="line" :grade="line.grade" :lineName="line.name" :beta="line.beta"></Problem>
     </div>
   </div>
 </template>
@@ -46,6 +53,23 @@ const lineList = computed(() => {
   flex-direction:column;
   width: 100%;
   border: 1px solid black;
+}
+
+.drawing-container {
+  position: relative;
+  display: inline-block; /* Shrinks container to fit the image size */
+  width: 100%;           /* Optional: makes it responsive */
+  max-width: 800px;      /* Adjust as needed */
+}
+
+.overlay-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: all;   /* Ensures clicks are captured by the SVG */
+  z-index: 10;           /* Keeps drawing layer on top */
 }
 
 .boulder {

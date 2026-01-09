@@ -8,7 +8,11 @@
     "Line": "Jackalopes Can Kill",
     "Grade": 4,
     "Sit Start": "FALSE",
-    "Beta": "Lorem ipsum"
+    "Beta": "Lorem ipsum",
+    "LineX1": "",
+    "LineY1": "",
+    "LineX2": "",
+    "LineY2": ""
   },
   {
     "Zone": "Peggy's Cove",

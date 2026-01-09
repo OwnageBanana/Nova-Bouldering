@@ -1,0 +1,22 @@
+﻿{
+  "difficultyLevels": [
+    {
+      "id": "beginner",
+      "min": 0,
+      "max": 3,
+      "color": "#4CAF50"
+    },
+    {
+      "id": "adept",
+      "min": 4,
+      "max": 7,
+      "color": "#FFC107"
+    },
+    {
+      "id": "experienced",
+      "min": 8,
+      "max": 10,
+      "color": "#F44336"
+    }
+  ]
+}

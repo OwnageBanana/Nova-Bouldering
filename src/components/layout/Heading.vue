@@ -33,9 +33,8 @@ const themeChange = function () {
       <div class="nav-container">
         <nav>
           <router-link to="/">Home</router-link>
-          <router-link to="/about">About</router-link>
           <router-link to="/crags">Crags</router-link>
-          <router-link to="/cragtest">Crag Test</router-link>
+          <router-link to="/about">About</router-link>
         </nav>
         <div class="theme-icon">
           <a @click="themeChange">

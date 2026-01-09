@@ -1,6 +1,8 @@
 ﻿<script setup>
 import { ref } from 'vue'
-import { getAttributeImage } from './ProblemAttributes.js'
+import { computed } from 'vue';
+import { getAttributeImage } from './ProblemAttributes.js';
+import GradeColor from '@assets/grade_colors.json';
 
 const {
   grade = '?',
@@ -18,6 +20,13 @@ const attr3Icon = getAttributeImage(attr3)
 
 const isOpen = ref(false) //for expanding beta & fa
 
+const gradeBackgroundColor = computed(() => {
+  const level = GradeColor.difficultyLevels.find(
+    l => grade >= l.min && grade <= l.max
+  );
+  return level ? level.color : '#bdc3c7'; // Fallback color
+});
+
 const toggleRows = () => {
   isOpen.value = !isOpen.value
 }
@@ -26,7 +35,12 @@ const toggleRows = () => {
 <template>
   <div class="layout">
   <div class="parent" :class="{ 'is-open': isOpen }">
-    <div class="lineGrade" @click="toggleRows">V{{ grade }}</div>
+    <div
+  id="grade"
+  class="lineGrade"
+  :style="{ backgroundColor: gradeBackgroundColor }"
+  @click="toggleRows"
+>V{{ grade }}</div>
 
     <div class="lineName" @click="toggleRows">
       {{ lineName }}
