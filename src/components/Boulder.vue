@@ -6,26 +6,27 @@ import { useRoute } from 'vue-router';
 import rawData from '@assets/master_list.json';
 import { processData } from './DataProcessor';
 
-const props = defineProps(['zoneName', 'cragName', 'areaName', 'boulderName']);
+const props = defineProps(['zoneName', 'cragName', 'areaName', 'boulderName', 'face']);
 
 const route = useRoute();
 
 const dataMap = processData(rawData);
 
 const lineList = computed(() => {
-  const zone = dataMap[props.zoneName];
 
-  //this is probably silly
-  if (zone && zone[props.cragName] && zone[props.cragName][props.areaName] && zone[props.cragName][props.areaName][props.boulderName]) {
-    const boulder = zone[props.cragName][props.areaName][props.boulderName];
-    return boulder.lines.map(lineObj => ({
-      name: lineObj.Line,
-      grade: lineObj.Grade,
-      beta: lineObj.Beta
-    }));
-  }
+  const faceData = dataMap[props.zoneName]
+    ?.[props.cragName]
+    ?.[props.areaName]
+    ?.[props.boulderName]
+    ?.[props.face];
 
-  return [];
+  return faceData?.lines
+    ? faceData.lines.map(lineObj => ({
+        name: lineObj.Line,
+        grade: lineObj.Grade,
+        beta: lineObj.Beta
+      }))
+    : [];
 });
 </script>
 
@@ -33,7 +34,7 @@ const lineList = computed(() => {
   <div class="boulder">
     <div class="parent">
       <div class="boulderName">
-      <div><h3>{{ boulderName }}</h3></div>
+      <div><h3>{{ boulderName }} {{face}}</h3></div>
       </div>
       <div class="drawing-container">
       <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px;" /></div>

@@ -17,12 +17,26 @@ const props = defineProps(['propZoneName', 'propCragName', 'propAreaName']);
 
 const dataMap = processData(rawData);
 
-const blocList = computed(() => {
-  const zone = dataMap[props.propZoneName];
-  if (zone && zone[props.propCragName] && zone[props.propCragName][props.propAreaName]) {
-    return Object.keys(zone[props.propCragName][props.propAreaName]);
-  }
-  return [];
+const faceList = computed(() => {
+  const area = dataMap[props.propZoneName]?.[props.propCragName]?.[props.propAreaName];
+  if (!area) return [];
+
+  const flattenedFaces = [];
+
+  Object.keys(area).forEach(blocName => {
+    Object.keys(area[blocName]).forEach(faceName => {
+
+      if (faceName !== 'lines') {
+        flattenedFaces.push({
+          blocName: blocName,
+          faceName: faceName,
+          id: `${blocName}-${faceName}`
+        });
+      }
+    });
+  });
+
+  return flattenedFaces;
 });
 </script>
 
@@ -31,8 +45,8 @@ const blocList = computed(() => {
     <!-- makes breadcrumb.. .yummy...-->
     <h2><router-link :to="{ name: 'crags' }"> {{ propZoneName }} </router-link> > <router-link :to="{ name: 'areas', params: { zoneName: propZoneName, cragName: propCragName } }"> {{ propCragName }} </router-link> > {{propAreaName}}</h2>
 
-    <div class="boulders" v-if="blocList.length > 0">
-      <Boulder v-for="bloc in blocList" :key="bloc" :areaName="propAreaName" :cragName="propCragName" :zoneName="propZoneName" :boulderName="bloc"></Boulder>
+    <div class="boulders" v-if="faceList.length > 0">
+      <Boulder v-for="face in faceList" :key="bloc" :areaName="propAreaName" :cragName="propCragName" :zoneName="propZoneName" :boulderName="face.blocName" :face="face.faceName"></Boulder>
     </div>
     <p v-else>No blocs found for this area.</p>
 

@@ -1,38 +1,26 @@
-﻿export function processData(masterList) {
+﻿// DataProcessor.js
+export function processData(masterList) {
   let map = {};
-  let zones = [];
-  let crags = [];
-  let areas = [];
-  let blocs = [];
 
-  const data = masterList;
-
-  data.forEach((row) => {
-    //zone
-    if (!map.hasOwnProperty(row.Zone)) {
-      map[row.Zone] = {};
-      zones.push(row.Zone);
+  masterList.forEach((row) => {
+    // 1. Setup nested objects
+    if (!map[row.Zone]) map[row.Zone] = {};
+    if (!map[row.Zone][row.Crag]) map[row.Zone][row.Crag] = {};
+    if (!map[row.Zone][row.Crag][row.Area]) map[row.Zone][row.Crag][row.Area] = {};
+    if (!map[row.Zone][row.Crag][row.Area][row.Bloc]) {
+      map[row.Zone][row.Crag][row.Area][row.Bloc] = {};
     }
 
-    //crag
-    if (!map[row.Zone].hasOwnProperty(row.Crag)) {
-      map[row.Zone][row.Crag] = {};
-      crags.push(row.Crag);
+    // 2. DEFINE THE VARIABLE HERE
+    const faceName = row["Bloc Face"];
+
+    // 3. Use the variable to initialize the Face object
+    if (!map[row.Zone][row.Crag][row.Area][row.Bloc][faceName]) {
+      map[row.Zone][row.Crag][row.Area][row.Bloc][faceName] = { lines: [] };
     }
 
-    //area
-    if (!map[row.Zone][row.Crag].hasOwnProperty(row.Area)) {
-      map[row.Zone][row.Crag][row.Area] = {};
-      areas.push(row.Area);
-    }
-
-    //boulder
-    if (!map[row.Zone][row.Crag][row.Area].hasOwnProperty(row.Bloc)) {
-      map[row.Zone][row.Crag][row.Area][row.Bloc] = { lines: [] };
-      blocs.push(row.Bloc);
-    }
-
-    map[row.Zone][row.Crag][row.Area][row.Bloc].lines.push(row);
+    // 4. Push the row into the lines array
+    map[row.Zone][row.Crag][row.Area][row.Bloc][faceName].lines.push(row);
   });
 
   return map;
