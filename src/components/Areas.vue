@@ -26,10 +26,11 @@ const dataMap = processData(rawData);
 });
 </script>
 
+
 <template>
   <div class="layout">
     <!-- makes breadcrumb.. .yummy...-->
-    <h2>{{ zoneName }} > {{ cragName }}</h2>
+    <h2><router-link :to="{ name: 'crags' }"> {{ zoneName }} </router-link> > {{ cragName }}</h2>
 
     <div v-if="areaList.length > 0">
       <Area v-for="area in areaList" :key="area" :area="area" :crag="cragName" :zone="zoneName"></Area>

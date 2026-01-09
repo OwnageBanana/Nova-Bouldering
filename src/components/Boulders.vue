@@ -29,7 +29,7 @@ const blocList = computed(() => {
 <template>
   <div class="layout">
     <!-- makes breadcrumb.. .yummy...-->
-    <h2>{{ propZoneName }} > {{ propCragName }} > {{propAreaName}}</h2>
+    <h2><router-link :to="{ name: 'crags' }"> {{ propZoneName }} </router-link> > <router-link :to="{ name: 'areas', params: { zoneName: propZoneName, cragName: propCragName } }"> {{ propCragName }} </router-link> > {{propAreaName}}</h2>
 
     <div class="boulders" v-if="blocList.length > 0">
       <Boulder v-for="bloc in blocList" :key="bloc" :areaName="propAreaName" :cragName="propCragName" :zoneName="propZoneName" :boulderName="bloc"></Boulder>

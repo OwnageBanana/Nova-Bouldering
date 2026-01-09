@@ -12,7 +12,7 @@ const router = createRouter({
     // { path: '/', component: Home },
     // { path: '/home', component: Home },
     { path: '/about', component: About },
-    { path: '/crags', component: Crags },
+    { path: '/crags', name: 'crags', component: Crags },
     { path: '/crags/:zoneName/:cragName', name: 'areas', component: Areas, props: true },
     { path: '/crags/:propZoneName/:propCragName/:propAreaName', name: 'boulders', component: Boulders, props: true },
     { path: '/cragtest', component: CragTest }
