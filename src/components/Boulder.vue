@@ -52,15 +52,15 @@ const lineList = computed(() => {
   display: flex;
   flex-direction:column;
   width: 100%;
-  border: 1px solid black;
   place-items: center;
+  padding-bottom: 10px;
 }
 
 .drawing-container {
   position: relative;
-  display: inline-block; /* Shrinks container to fit the image size */
-  width: 100%;           /* Optional: makes it responsive */
-  max-width: 800px;      /* Adjust as needed */
+  display: inline-block;
+  width: 100%;
+  max-width: 800px;
 }
 
 .overlay-svg {
@@ -69,8 +69,8 @@ const lineList = computed(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: all;   /* Ensures clicks are captured by the SVG */
-  z-index: 10;           /* Keeps drawing layer on top */
+  pointer-events: all;
+  z-index: 10;
 }
 
 .boulder {
@@ -86,12 +86,15 @@ const lineList = computed(() => {
   align-items: center;
   justify-content: center;
   background-color: var(--complement-light);
+  border-radius: 8px 8px 0px 0px;
+  border-bottom: 1px solid black;
 }
 
 .boulderPhoto {
   width: 100%;
   flex-grow: 1;
   align-items: center;
+  padding-top: 10px;
 }
 
 .boulderPhoto img {

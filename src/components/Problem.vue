@@ -39,22 +39,21 @@ const toggleRows = () => {
   id="grade"
   class="lineGrade" :class="{ 'is-open': isOpen }"
   :style="{ backgroundColor: gradeBackgroundColor }"
-  @click="toggleRows"
 >V{{ grade }}</div>
 
-    <div class="lineName" @click="toggleRows">
+    <div class="lineName" :class="{ 'is-open': isOpen }" @click="toggleRows">
       {{ lineName }}
     </div>
 
-    <div class="attr1" @click="toggleRows"><img :src="attr1Icon" width="25px" /></div>
-    <div class="attr2" @click="toggleRows"><img :src="attr2Icon" width="25px" /></div>
-    <div class="attr3" @click="toggleRows"><img :src="attr3Icon" width="25px" /></div>
+    <div class="attr1" :class="{ 'is-open': isOpen }"><img :src="attr1Icon" width="25px" /></div>
+    <div class="attr2" :class="{ 'is-open': isOpen }"><img :src="attr2Icon" width="25px" /></div>
+    <div class="attr3" :class="{ 'is-open': isOpen }"><img :src="attr3Icon" width="25px" /></div>
 
     <div class="lineBeta">
       <div style="margin: 15px">{{ beta }}</div>
     </div>
 
-    <div class="lineFA">
+    <div class="lineFA" :class="{ 'is-open': isOpen }">
       <div style="margin: 15px">FA: {{ fa }}</div>
     </div>
   </div>
@@ -81,6 +80,10 @@ const toggleRows = () => {
   grid-column-gap: 0;
   grid-row-gap: 0;
 
+  border: 1px solid black;
+  border-radius: 8px 0px 0px 8px;
+  margin-bottom: 5px;
+
   transition: grid-template-rows 0.75s ease;
 }
 
@@ -103,13 +106,13 @@ const toggleRows = () => {
   aspect-ratio: 1 / 1;
   display: grid;
   place-items: center;
-  cursor: pointer;
-  border: 1px solid black;
   border-radius: 8px 0px 0px 8px;
+
 }
 
 .lineGrade.is-open {
     border-radius: 8px 0px 0px 0px;
+    border-bottom: 1px solid black;
   }
 .lineName {
   /* column 2 (not square) */
@@ -118,13 +121,16 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   cursor: pointer;
-  border-bottom: 1px solid black;
-  border-right: 1px solid black;
+
 
   &:hover {
     background-color: var(--complement-light);
   }
 }
+
+  .lineName.is-open {
+    border-bottom: 1px solid black;
+  }
 
 /*Attributes, square*/
 .attr1 {
@@ -133,9 +139,11 @@ const toggleRows = () => {
   background-color: var(--complement);
   display: grid;
   place-items: center;
-  cursor: pointer;
-  border-bottom: 1px solid black;
 }
+
+  .attr1.is-open {
+    border-bottom: 1px solid black;
+  }
 
 .attr2 {
   grid-area: 1 / 4 / 2 / 5;
@@ -143,18 +151,23 @@ const toggleRows = () => {
   background-color: var(--complement);
   display: grid;
   place-items: center;
-  cursor: pointer;
-  border-bottom: 1px solid black;
 }
+
+  .attr2.is-open {
+    border-bottom: 1px solid black;
+  }
+
 .attr3 {
   grid-area: 1 / 5 / 2 / 6;
   aspect-ratio: 1 / 1;
   background-color: var(--complement);
   display: grid;
   place-items: center;
-  cursor: pointer;
-  border-bottom: 1px solid black;
-} /* column 5 */
+}
+
+  .attr3.is-open {
+    border-bottom: 1px solid black;
+  }
 
 /* Row-spanning bars */
 .lineBeta {
@@ -162,8 +175,6 @@ const toggleRows = () => {
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
   background-color: rgb(35, 35, 35);
-  border-left: black solid 1px;
-  border-right: black solid 1px;
 }
 
 .lineFA {
@@ -171,8 +182,8 @@ const toggleRows = () => {
   width: 100%;
   display: grid;
   background-color: rgb(35, 35, 35);
-  border-left: black solid 1px;
-  border-right: black solid 1px;
-  border-bottom: 1px solid black;
+  border-radius: 0px 0px 0px 8px;
+
 }
+
 </style>
