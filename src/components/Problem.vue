@@ -115,7 +115,8 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   cursor: pointer;
-
+  border-left: 1px solid black;
+  border-right: 1px solid black;
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition: border-bottom-color 0.35s ease;
