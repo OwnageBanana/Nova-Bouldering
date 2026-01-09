@@ -49,7 +49,7 @@ const toggleRows = () => {
     <div class="attr2" :class="{ 'is-open': isOpen }"><img :src="attr2Icon" width="25px" /></div>
     <div class="attr3" :class="{ 'is-open': isOpen }"><img :src="attr3Icon" width="25px" /></div>
 
-    <div class="lineBeta">
+    <div class="lineBeta" :class="{ 'is-open': isOpen }">
       <div style="margin: 15px">{{ beta }}</div>
     </div>
 
@@ -78,7 +78,7 @@ const toggleRows = () => {
   border-radius: 8px 0px 0px 8px;
   margin-bottom: 5px;
 
-  transition: grid-template-rows 0.25s ease;
+  transition: grid-template-rows 0.35s ease;
 }
 
 /* expanded state */
@@ -99,11 +99,14 @@ const toggleRows = () => {
   place-items: center;
   border-radius: 8px 0px 0px 8px;
 
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  transition: border-radius 0.35s ease, border-bottom-color 0.35s ease;
 }
 
 .lineGrade.is-open {
     border-radius: 8px 0px 0px 0px;
-    border-bottom: 1px solid black;
+    border-bottom-color: black;
   }
 .lineName {
   /* column 2 (not square) */
@@ -113,6 +116,9 @@ const toggleRows = () => {
   place-items: center;
   cursor: pointer;
 
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  transition: border-bottom-color 0.35s ease;
 
   &:hover {
     background-color: var(--complement-light);
@@ -120,7 +126,7 @@ const toggleRows = () => {
 }
 
   .lineName.is-open {
-    border-bottom: 1px solid black;
+    border-bottom-color: black;
   }
 
 /*Attributes, square*/
@@ -130,10 +136,13 @@ const toggleRows = () => {
   background-color: var(--complement);
   display: grid;
   place-items: center;
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  transition: border-bottom-color 0.35s ease;
 }
 
   .attr1.is-open {
-    border-bottom: 1px solid black;
+    border-bottom-color: black;
   }
 
 .attr2 {
@@ -142,10 +151,13 @@ const toggleRows = () => {
   background-color: var(--complement);
   display: grid;
   place-items: center;
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  transition: border-bottom-color 0.35s ease;
 }
 
   .attr2.is-open {
-    border-bottom: 1px solid black;
+    border-bottom-color: black;
   }
 
 .attr3 {
@@ -154,10 +166,14 @@ const toggleRows = () => {
   background-color: var(--complement);
   display: grid;
   place-items: center;
+  border-bottom: 1px solid;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  transition: border-bottom-color 0.35s ease;
 }
 
   .attr3.is-open {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid;
+    border-bottom-color: black;
   }
 
 /* Row-spanning bars */
@@ -167,6 +183,13 @@ const toggleRows = () => {
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
   background-color: rgb(35, 35, 35);
+
+  border-radius: 8px 0px 0px 0px;
+  transition: border-radius 0.35s ease;
+}
+
+.lineBeta.is-open {
+  border-radius: 0px;
 }
 
 .lineFA {
