@@ -108,7 +108,7 @@ const toggleRows = () => {
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
-  background-color: var(--complement-lighter);
+  background-color: rgb(33, 33, 33);
   display: grid;
   place-items: center;
   cursor: pointer;
