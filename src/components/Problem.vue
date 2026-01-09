@@ -63,18 +63,12 @@ const toggleRows = () => {
 <style>
 .parent {
   display: grid;
-  grid-template-columns:
-    40px
-    1fr
-    40px
-    40px
-    40px;
+  grid-template-columns: 40px 1fr 40px 40px 40px;
 
-  /* default: rows 2 & 3 hidden */
-  grid-template-rows:
-    40px /* row 1 */
-    0px /* row 2 */
-    0px; /* row 3 */
+  /* Use 0fr for the hidden rows */
+  grid-template-rows: 40px 0fr 0fr;
+
+  overflow: hidden;
 
   place-items: stretch;
   grid-column-gap: 0;
@@ -84,15 +78,12 @@ const toggleRows = () => {
   border-radius: 8px 0px 0px 8px;
   margin-bottom: 5px;
 
-  transition: grid-template-rows 0.75s ease;
+  transition: grid-template-rows 0.25s ease;
 }
 
 /* expanded state */
 .parent.is-open {
-  grid-template-rows:
-    40px
-    auto
-    auto;
+  grid-template-rows: 40px 1fr 1fr;
 }
 
 /* prevent content bleed */
@@ -172,6 +163,7 @@ const toggleRows = () => {
 /* Row-spanning bars */
 .lineBeta {
   display: grid;
+  min-height: 0;
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
   background-color: rgb(35, 35, 35);
@@ -180,6 +172,7 @@ const toggleRows = () => {
 .lineFA {
   grid-area: 3 / 1 / 4 / 6;
   width: 100%;
+  min-height: 0;
   display: grid;
   background-color: rgb(35, 35, 35);
   border-radius: 0px 0px 0px 8px;
