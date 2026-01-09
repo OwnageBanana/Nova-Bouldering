@@ -32,9 +32,11 @@ const lineList = computed(() => {
 <template>
   <div class="boulder">
     <div class="parent">
-      <div class="boulderName">{{ boulderName }}</div>
+      <div class="boulderName">
+      <div>{{ boulderName }}</div>
+      </div>
       <div class="drawing-container">
-      <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" /></div>
+      <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px;" /></div>
         <svg class="overlay-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
         <!-- Lines and points will be rendered here via Vue -->
         <polyline points="100,100 400,250" stroke="red" fill="none" stroke-width="4" />
@@ -53,7 +55,6 @@ const lineList = computed(() => {
   flex-direction:column;
   width: 100%;
   place-items: center;
-  padding-bottom: 10px;
 }
 
 .drawing-container {
@@ -77,6 +78,10 @@ const lineList = computed(() => {
     width: 80%;
     margin: 25px;
     display: flexbox;
+    background-color: rgb(18, 18, 18);
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
 }
 
 .boulderName {
@@ -87,14 +92,14 @@ const lineList = computed(() => {
   justify-content: center;
   background-color: var(--complement-light);
   border-radius: 8px 8px 0px 0px;
-  border-bottom: 1px solid black;
+  border: 1px solid black;
 }
 
 .boulderPhoto {
   width: 100%;
   flex-grow: 1;
   align-items: center;
-  padding-top: 10px;
+  padding: 8px;
 }
 
 .boulderPhoto img {

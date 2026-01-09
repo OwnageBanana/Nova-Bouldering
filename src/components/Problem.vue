@@ -34,7 +34,7 @@ const toggleRows = () => {
 
 <template>
   <div class="layout">
-  <div class="parent" :class="{ 'is-open': isOpen }">
+  <div class="parent2" :class="{ 'is-open': isOpen }">
     <div
   id="grade"
   class="lineGrade" :class="{ 'is-open': isOpen }"
@@ -61,7 +61,7 @@ const toggleRows = () => {
 </template>
 
 <style>
-.parent {
+.parent2 {
   display: grid;
   grid-template-columns: 40px 1fr 40px 40px 40px;
 
@@ -75,14 +75,14 @@ const toggleRows = () => {
   grid-row-gap: 0;
 
   border: 1px solid black;
-  border-radius: 8px 0px 0px 8px;
+  border-radius: 8px;
   margin-bottom: 5px;
 
   transition: grid-template-rows 0.35s ease;
 }
 
 /* expanded state */
-.parent.is-open {
+.parent2.is-open {
   grid-template-rows: 40px 1fr 1fr;
 }
 
@@ -167,13 +167,15 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
+  border-radius: 0px 8px 8px 0px;
   border-bottom-color: rgba(0, 0, 0, 0);
-  transition: border-bottom-color 0.35s ease;
+  transition: border-bottom-color 0.35s, border-radius 0.35s ease;
 }
 
   .attr3.is-open {
     border-bottom: 1px solid;
     border-bottom-color: black;
+    border-radius: 0px 8px 0px 0px;
   }
 
 /* Row-spanning bars */
@@ -198,7 +200,7 @@ const toggleRows = () => {
   min-height: 0;
   display: grid;
   background-color: rgb(35, 35, 35);
-  border-radius: 0px 0px 0px 8px;
+  border-radius: 0px 0px 8px 8px;
 
 }
 
