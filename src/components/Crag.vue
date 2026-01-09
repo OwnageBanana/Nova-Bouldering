@@ -18,9 +18,16 @@ const props = defineProps(['zone', 'crag']);
         border: 1px solid black;
         border-radius: 5px;
         margin: 10px;
+        cursor: pointer;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 
         & div {
             margin: 15px;
+        }
+
+        &:hover {
+          background-color: var(--complement-light);
         }
     }
 

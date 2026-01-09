@@ -33,7 +33,7 @@ const lineList = computed(() => {
   <div class="boulder">
     <div class="parent">
       <div class="boulderName">
-      <div>{{ boulderName }}</div>
+      <div><h3>{{ boulderName }}</h3></div>
       </div>
       <div class="drawing-container">
       <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px;" /></div>
@@ -93,6 +93,8 @@ const lineList = computed(() => {
   background-color: var(--complement-light);
   border-radius: 8px 8px 0px 0px;
   border: 1px solid black;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
 }
 
 .boulderPhoto {

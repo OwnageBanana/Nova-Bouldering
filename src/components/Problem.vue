@@ -102,6 +102,7 @@ const toggleRows = () => {
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition: border-radius 0.35s ease, border-bottom-color 0.35s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .lineGrade.is-open {
@@ -120,6 +121,7 @@ const toggleRows = () => {
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition: border-bottom-color 0.35s ease;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
   &:hover {
     background-color: var(--complement-light);
