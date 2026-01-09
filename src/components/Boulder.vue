@@ -53,6 +53,7 @@ const lineList = computed(() => {
   flex-direction:column;
   width: 100%;
   border: 1px solid black;
+  place-items: center;
 }
 
 .drawing-container {
@@ -90,6 +91,7 @@ const lineList = computed(() => {
 .boulderPhoto {
   width: 100%;
   flex-grow: 1;
+  align-items: center;
 }
 
 .boulderPhoto img {

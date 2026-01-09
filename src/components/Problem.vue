@@ -37,7 +37,7 @@ const toggleRows = () => {
   <div class="parent" :class="{ 'is-open': isOpen }">
     <div
   id="grade"
-  class="lineGrade"
+  class="lineGrade" :class="{ 'is-open': isOpen }"
   :style="{ backgroundColor: gradeBackgroundColor }"
   @click="toggleRows"
 >V{{ grade }}</div>
@@ -64,7 +64,6 @@ const toggleRows = () => {
 <style>
 .parent {
   display: grid;
-
   grid-template-columns:
     40px
     1fr
@@ -102,18 +101,29 @@ const toggleRows = () => {
   /* column 1 */
   grid-area: 1 / 1 / 2 / 2;
   aspect-ratio: 1 / 1;
-  background-color: red;
   display: grid;
   place-items: center;
   cursor: pointer;
+  border: 1px solid black;
+  border-radius: 8px 0px 0px 8px;
 }
+
+.lineGrade.is-open {
+    border-radius: 8px 0px 0px 0px;
+  }
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
-  background-color: var(--complement-light);
+  background-color: var(--complement-lighter);
   display: grid;
   place-items: center;
   cursor: pointer;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+
+  &:hover {
+    background-color: var(--complement-light);
+  }
 }
 
 /*Attributes, square*/
@@ -124,6 +134,7 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   cursor: pointer;
+  border-bottom: 1px solid black;
 }
 
 .attr2 {
@@ -133,6 +144,7 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   cursor: pointer;
+  border-bottom: 1px solid black;
 }
 .attr3 {
   grid-area: 1 / 5 / 2 / 6;
@@ -141,6 +153,7 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   cursor: pointer;
+  border-bottom: 1px solid black;
 } /* column 5 */
 
 /* Row-spanning bars */
@@ -148,7 +161,7 @@ const toggleRows = () => {
   display: grid;
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
-  background-color: var(--complement-lighter);
+  background-color: rgb(35, 35, 35);
   border-left: black solid 1px;
   border-right: black solid 1px;
 }
@@ -157,8 +170,9 @@ const toggleRows = () => {
   grid-area: 3 / 1 / 4 / 6;
   width: 100%;
   display: grid;
-  background-color: var(--complement-lighter);
+  background-color: rgb(35, 35, 35);
   border-left: black solid 1px;
   border-right: black solid 1px;
+  border-bottom: 1px solid black;
 }
 </style>

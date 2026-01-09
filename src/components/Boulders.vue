@@ -31,7 +31,7 @@ const blocList = computed(() => {
     <!-- makes breadcrumb.. .yummy...-->
     <h2>{{ propZoneName }} > {{ propCragName }} > {{propAreaName}}</h2>
 
-    <div v-if="blocList.length > 0">
+    <div class="boulders" v-if="blocList.length > 0">
       <Boulder v-for="bloc in blocList" :key="bloc" :areaName="propAreaName" :cragName="propCragName" :zoneName="propZoneName" :boulderName="bloc"></Boulder>
     </div>
     <p v-else>No blocs found for this area.</p>
@@ -47,6 +47,13 @@ const blocList = computed(() => {
   display: flex;
   flex-direction: column;
 }
+
+.boulders {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
 .pfp-container {
   height: 13rem;
   width: 13rem;
