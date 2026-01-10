@@ -35,7 +35,7 @@ const lineList = computed(() => {
       </div>
       <div class="drawing-container">
         <div class="boulderPhoto">
-          <img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px" />
+          <img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px;" />
         </div>
         <svg class="overlay-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
           <!-- Lines and points will be rendered here via Vue -->
@@ -57,7 +57,7 @@ const lineList = computed(() => {
 
 <style scoped>
 .parent {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
   width: 100%;
   place-items: center;
@@ -67,7 +67,7 @@ const lineList = computed(() => {
   position: relative;
   display: inline-block;
   width: 100%;
-  max-width: 800px;
+
 }
 
 .overlay-svg {
@@ -84,7 +84,7 @@ const lineList = computed(() => {
   width: 80%;
   margin: 25px;
   display: flexbox;
-  background-color: rgb(18, 18, 18);
+  background-color: rgba(18, 18, 18,0.85);
   border: 1px solid black;
   border-radius: 8px;
   padding: 8px;
@@ -105,7 +105,6 @@ const lineList = computed(() => {
 
 .boulderPhoto {
   width: 100%;
-  flex-grow: 1;
   align-items: center;
   padding: 8px;
 }
@@ -114,7 +113,6 @@ const lineList = computed(() => {
   display: block;
   width: 100%;
   height: auto;
-  object-fit: cover;
 }
 
 .boulderPhoto:empty {

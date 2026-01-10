@@ -119,14 +119,13 @@ const toggleRows = () => {
   place-items: center;
   cursor: pointer;
   border-left: 1px solid black;
-  border-right: 1px solid black;
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition: border-bottom-color 0.35s ease;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 
   &:hover {
-    background-color: var(--complement-light);
+    background-color: var(--complement-lighter);
   }
 }
 
@@ -138,7 +137,7 @@ const toggleRows = () => {
 .attr1 {
   grid-area: 1 / 3 / 2 / 4;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement-dark);
+  background-color: var(--complement-light);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
@@ -153,7 +152,7 @@ const toggleRows = () => {
 .attr2 {
   grid-area: 1 / 4 / 2 / 5;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement-dark);
+  background-color: var(--complement-light);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
@@ -168,7 +167,7 @@ const toggleRows = () => {
 .attr3 {
   grid-area: 1 / 5 / 2 / 6;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement-dark);
+  background-color: var(--complement-light);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
