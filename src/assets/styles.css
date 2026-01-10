@@ -141,7 +141,7 @@ a.router-link-active:hover {
 
 /*anchor element: dark */
 html.dark a:hover {
-  color: var(--complement);
+  color: var(--complement-dark);
 }
 html.dark a.invisible:hover {
   color: inherit;
