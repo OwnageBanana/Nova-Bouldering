@@ -6,7 +6,9 @@ let sectionSelection = ref('tech')
 </script>
 
 <template>
+
   <div class="layout">
+
     <!-- <div class="pfp-container">
         <img class="pfp" src="@assets/images/pfp.jpg" height="208px" width="208px">
       </div> -->

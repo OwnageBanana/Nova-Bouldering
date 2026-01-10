@@ -13,8 +13,11 @@ import Footer from '@layout/Footer.vue'
 
 <template>
   <Heading />
+  <div id="app" class="site-background">
+
   <div class="main-view">
     <router-view></router-view>
+  </div>
   </div>
   <Footer />
 </template>
@@ -27,6 +30,44 @@ import Footer from '@layout/Footer.vue'
   margin: 0 0.5rem;
   /* text-align: justify; */
 }
+
+
+.site-background {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.site-background::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  background-image: url('@assets/images/boulders_BG.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  background-position: 100% 10%;
+
+  mask-image: linear-gradient(to top, black 20%, transparent 80%);
+}
+
+/* 4. Keep your content layer clean */
+.main-view {
+  position: relative;
+  z-index: 1; /* Ensures content stays on top */
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 0 0.5rem;
+}
+
+
 
 @media (min-width: 640px) {
   .main-view {

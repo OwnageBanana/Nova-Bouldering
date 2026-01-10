@@ -116,7 +116,7 @@ i {
 
 /* anchor element */
 a {
-  color: var(--complement-bright);
+  color: var(--complement-darker);
   cursor: pointer;
 }
 

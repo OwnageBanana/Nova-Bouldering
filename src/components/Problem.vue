@@ -35,11 +35,7 @@ const toggleRows = () => {
 <template>
   <div class="layout">
   <div class="parent2" :class="{ 'is-open': isOpen }">
-    <div
-  id="grade"
-  class="lineGrade" :class="{ 'is-open': isOpen }"
-  :style="{ backgroundColor: gradeBackgroundColor }"
->V{{ grade }}</div>
+    <div id="grade" class="lineGrade" :class="{ 'is-open': isOpen }" :style="{ backgroundColor: gradeBackgroundColor }">V{{ grade }}</div>
 
     <div class="lineName" :class="{ 'is-open': isOpen }" @click="toggleRows">
       {{ lineName }}
@@ -112,7 +108,7 @@ const toggleRows = () => {
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
-  background-color: rgb(33, 33, 33);
+  background-color: var(--complement-light);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -136,7 +132,7 @@ const toggleRows = () => {
 .attr1 {
   grid-area: 1 / 3 / 2 / 4;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement);
+  background-color: var(--complement-dark);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
@@ -151,7 +147,7 @@ const toggleRows = () => {
 .attr2 {
   grid-area: 1 / 4 / 2 / 5;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement);
+  background-color: var(--complement-dark);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
@@ -166,7 +162,7 @@ const toggleRows = () => {
 .attr3 {
   grid-area: 1 / 5 / 2 / 6;
   aspect-ratio: 1 / 1;
-  background-color: var(--complement);
+background-color: var(--complement-dark);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
@@ -187,7 +183,7 @@ const toggleRows = () => {
   min-height: 0;
   grid-area: 2 / 1 / 3 / 6;
   width: 100%;
-  background-color: rgb(35, 35, 35);
+  background-color: var(--complement-lighter);
 
   border-radius: 8px 0px 0px 0px;
   transition: border-radius 0.35s ease;
@@ -202,9 +198,14 @@ const toggleRows = () => {
   width: 100%;
   min-height: 0;
   display: grid;
-  background-color: rgb(35, 35, 35);
+  background-color: var(--complement-lighter);
   border-radius: 0px 0px 8px 8px;
 
+/*Test*/
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  position: relative;
 }
 
 </style>

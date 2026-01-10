@@ -438,5 +438,148 @@
    "Grade": 2,
    "Sit Start": false,
    "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Dynamitus Boulder",
+   "Bloc Face": "",
+   "Line": "Hoofmaker",
+   "Grade": 7,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Dynamitus Boulder",
+   "Bloc Face": "",
+   "Line": "Alpha Female",
+   "Grade": 4,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Dynamitus Boulder",
+   "Bloc Face": "",
+   "Line": "True Blood",
+   "Grade": 5,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Nouveau Riche Boulder",
+   "Bloc Face": "",
+   "Line": "Nouveau Riche",
+   "Grade": 2,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Nouveau Riche Boulder",
+   "Bloc Face": "",
+   "Line": "When Bitter and Ugly Meet",
+   "Grade": 2,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Nouveau Riche Boulder",
+   "Bloc Face": "",
+   "Line": "BK McMuffin",
+   "Grade": 4,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Nouveau Riche Boulder",
+   "Bloc Face": "",
+   "Line": "Nouveau Itch",
+   "Grade": 8,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "La Vie en Rose Boulder",
+   "Bloc Face": "",
+   "Line": "La Vie en Rose",
+   "Grade": 3,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "La Vie en Rose Boulder",
+   "Bloc Face": "",
+   "Line": "La Force du Sang",
+   "Grade": 7,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "L’Urbaniste Boulder",
+   "Bloc Face": "",
+   "Line": "L’Urbaniste",
+   "Grade": 3,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "L’Urbaniste Boulder",
+   "Bloc Face": "",
+   "Line": "L’Urbaniste Direct",
+   "Grade": 4,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Reach Around and Squeeze Boulder",
+   "Bloc Face": "",
+   "Line": "Reach Around",
+   "Grade": 3,
+   "Sit Start": false,
+   "Beta": "No beta yet!"
+ },
+ {
+   "Zone": "Peggy's Cove",
+   "Crag": "Land of Confusion",
+   "Area": "Nouveau Riche",
+   "Bloc": "Reach Around and Squeeze Boulder",
+   "Bloc Face": "",
+   "Line": "Reach Around SDS",
+   "Grade": 4,
+   "Sit Start": true,
+   "Beta": "No beta yet!"
  }
 ]

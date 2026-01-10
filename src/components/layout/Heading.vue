@@ -32,7 +32,7 @@ const themeChange = function () {
       </div>
       <div class="nav-container">
         <nav>
-          <router-link to="/">Home</router-link>
+          <router-link to="/home">Home</router-link>
           <router-link to="/crags">Crags</router-link>
           <router-link to="/about">About</router-link>
         </nav>

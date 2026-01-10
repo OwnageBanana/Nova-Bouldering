@@ -26,15 +26,15 @@
   --contrast-dark: #c47038;
   --contrast: #ffa56a;
   --contrast-bright: #f5751f;
-  --contrast-light: #FFEDE1;
+  --contrast-light: #686868;
 
-
-  --complement-darker: #111f05;
-  --complement-dark: #2c411b;
-  --complement: #567041;
-  --complement-bright: #42b94e;
-  --complement-light: #bfceb3;
-  --complement-lighter: #F8F9F6;
+  --complement-darkest: #1e1e1e;
+  --complement-darker: #5c5c5c;
+  --complement-dark: #DABBD0;
+  --complement: #838383;
+  --complement-bright: #979797;
+  --complement-light: #E8DDEF;
+  --complement-lighter: #e2eaf1;
 }
 /* the names in the dark theme are really going to represent to oposite of what they say,
 like main-darker is the lightest color. but this lets me not have to write dark css for everything and makes

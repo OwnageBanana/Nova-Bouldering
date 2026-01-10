@@ -27,10 +27,7 @@ const faceList = computed(() => {
     Object.keys(area[blocName]).forEach(faceName => {
 
       if (faceName !== 'lines') {
-        flattenedFaces.push({
-          blocName: blocName,
-          faceName: faceName,
-          id: `${blocName}-${faceName}`
+        flattenedFaces.push({blocName: blocName,faceName: faceName, id: `${blocName}-${faceName}`
         });
       }
     });
@@ -60,12 +57,19 @@ const faceList = computed(() => {
 .layout {
   display: flex;
   flex-direction: column;
+   background-color: color-mix(in srgb, var(--complement-darker), transparent 80%);
+  border: 1px solid var(--complement-darkest);
+  padding: 15px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px) brightness(1.4) saturate(120%);
 }
+
 
 .boulders {
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
+
 }
 
 .pfp-container {
