@@ -22,7 +22,7 @@ export default {
       <a class="inline-anchor" href="https://github.com/OwnageBanana/Nova-Bouldering/issues/new"
         >leave an issue</a
       >
-      &nbsp;in the github repository.
+      in the github repository.
     </div>
   </div>
 </template>

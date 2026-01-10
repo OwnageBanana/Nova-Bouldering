@@ -1,8 +1,8 @@
 ﻿<script setup>
 import { ref } from 'vue'
 
-import Boulder from './Boulder.vue'
-import Problem from './Problem.vue'
+import Boulder from '@components/Boulder.vue'
+import Problem from '@components/Problem.vue'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
@@ -34,7 +34,6 @@ let sectionSelection = ref('tech')
       <Problem></Problem>
       <Problem></Problem>
     </div>
-
   </div>
 </template>
 
@@ -42,9 +41,9 @@ let sectionSelection = ref('tech')
 @import url('@assets/modules/sections.module.css');
 
 .boulder {
-    width: 80%;
-    margin: 25px;
-    display: flexbox;
+  width: 80%;
+  margin: 25px;
+  display: flexbox;
 }
 
 .layout {

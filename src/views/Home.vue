@@ -1,39 +1,16 @@
 <script setup>
 import { ref } from 'vue'
-import CragObj from './Crag.vue'
-import { computed } from 'vue';
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
-
-import rawData from '@assets/master_list.json';
-import { processData } from './DataProcessor';
-
-const targetZone = "Peggy's Cove";
-
-const dataMap = processData(rawData);
-
-const cragsList = computed(() => {
-  if (dataMap[targetZone]) {
-    return Object.keys(dataMap[targetZone]);
-  }
-  return [];
-});
-
 </script>
 
 <template>
   <div class="layout">
-
-    <h2>{{ targetZone }}</h2>
-
-    <div v-if="cragsList.length > 0">
-      <CragObj v-for="crag in cragsList" :key="crag" :crag="crag" :zone="targetZone"></CragObj>
-    </div>
-
-    <!--fallback-->
-    <p v-else>No crags found for this zone.</p>
-
+    <!-- <div class="pfp-container">
+        <img class="pfp" src="@assets/images/pfp.jpg" height="208px" width="208px">
+      </div> -->
+    <h2>Welcome!</h2>
   </div>
 </template>
 

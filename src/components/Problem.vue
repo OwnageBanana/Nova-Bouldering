@@ -1,8 +1,8 @@
 ﻿<script setup>
 import { ref } from 'vue'
-import { computed } from 'vue';
-import { getAttributeImage } from './ProblemAttributes.js';
-import GradeColor from '@assets/grade_colors.json';
+import { computed } from 'vue'
+import { getAttributeImage } from '@modules/ProblemAttributes.js'
+import GradeColor from '@assets/grade_colors.json'
 
 const {
   grade = '?',
@@ -21,11 +21,9 @@ const attr3Icon = getAttributeImage(attr3)
 const isOpen = ref(false) //for expanding beta & fa
 
 const gradeBackgroundColor = computed(() => {
-  const level = GradeColor.difficultyLevels.find(
-    l => grade >= l.min && grade <= l.max
-  );
-  return level ? level.color : '#bdc3c7'; // Fallback color
-});
+  const level = GradeColor.difficultyLevels.find((l) => grade >= l.min && grade <= l.max)
+  return level ? level.color : '#bdc3c7' // Fallback color
+})
 
 const toggleRows = () => {
   isOpen.value = !isOpen.value
@@ -34,26 +32,32 @@ const toggleRows = () => {
 
 <template>
   <div class="layout">
-  <div class="parent2" :class="{ 'is-open': isOpen }">
-    <div id="grade" class="lineGrade" :class="{ 'is-open': isOpen }" :style="{ backgroundColor: gradeBackgroundColor }">V{{ grade }}</div>
+    <div class="parent2" :class="{ 'is-open': isOpen }">
+      <div
+        id="grade"
+        class="lineGrade"
+        :class="{ 'is-open': isOpen }"
+        :style="{ backgroundColor: gradeBackgroundColor }"
+      >
+        V{{ grade }}
+      </div>
+      <div class="lineName" :class="{ 'is-open': isOpen }" @click="toggleRows">
+        {{ lineName }}
+      </div>
 
-    <div class="lineName" :class="{ 'is-open': isOpen }" @click="toggleRows">
-      {{ lineName }}
-    </div>
+      <div class="attr1" :class="{ 'is-open': isOpen }"><img :src="attr1Icon" width="25px" /></div>
+      <div class="attr2" :class="{ 'is-open': isOpen }"><img :src="attr2Icon" width="25px" /></div>
+      <div class="attr3" :class="{ 'is-open': isOpen }"><img :src="attr3Icon" width="25px" /></div>
 
-    <div class="attr1" :class="{ 'is-open': isOpen }"><img :src="attr1Icon" width="25px" /></div>
-    <div class="attr2" :class="{ 'is-open': isOpen }"><img :src="attr2Icon" width="25px" /></div>
-    <div class="attr3" :class="{ 'is-open': isOpen }"><img :src="attr3Icon" width="25px" /></div>
+      <div class="lineBeta" :class="{ 'is-open': isOpen }">
+        <div style="margin: 15px">{{ beta }}</div>
+      </div>
 
-    <div class="lineBeta" :class="{ 'is-open': isOpen }">
-      <div style="margin: 15px">{{ beta }}</div>
-    </div>
-
-    <div class="lineFA" :class="{ 'is-open': isOpen }">
-      <div style="margin: 15px">FA: {{ fa }}</div>
+      <div class="lineFA" :class="{ 'is-open': isOpen }">
+        <div style="margin: 15px">FA: {{ fa }}</div>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <style>
@@ -97,14 +101,16 @@ const toggleRows = () => {
 
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
-  transition: border-radius 0.35s ease, border-bottom-color 0.35s ease;
+  transition:
+    border-radius 0.35s ease,
+    border-bottom-color 0.35s ease;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .lineGrade.is-open {
-    border-radius: 8px 0px 0px 0px;
-    border-bottom-color: black;
-  }
+  border-radius: 8px 0px 0px 0px;
+  border-bottom-color: black;
+}
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
@@ -124,9 +130,9 @@ const toggleRows = () => {
   }
 }
 
-  .lineName.is-open {
-    border-bottom-color: black;
-  }
+.lineName.is-open {
+  border-bottom-color: black;
+}
 
 /*Attributes, square*/
 .attr1 {
@@ -140,9 +146,9 @@ const toggleRows = () => {
   transition: border-bottom-color 0.35s ease;
 }
 
-  .attr1.is-open {
-    border-bottom-color: black;
-  }
+.attr1.is-open {
+  border-bottom-color: black;
+}
 
 .attr2 {
   grid-area: 1 / 4 / 2 / 5;
@@ -155,27 +161,29 @@ const toggleRows = () => {
   transition: border-bottom-color 0.35s ease;
 }
 
-  .attr2.is-open {
-    border-bottom-color: black;
-  }
+.attr2.is-open {
+  border-bottom-color: black;
+}
 
 .attr3 {
   grid-area: 1 / 5 / 2 / 6;
   aspect-ratio: 1 / 1;
-background-color: var(--complement-dark);
+  background-color: var(--complement-dark);
   display: grid;
   place-items: center;
   border-bottom: 1px solid;
   border-radius: 0px 8px 8px 0px;
   border-bottom-color: rgba(0, 0, 0, 0);
-  transition: border-bottom-color 0.35s, border-radius 0.35s ease;
+  transition:
+    border-bottom-color 0.35s,
+    border-radius 0.35s ease;
 }
 
-  .attr3.is-open {
-    border-bottom: 1px solid;
-    border-bottom-color: black;
-    border-radius: 0px 8px 0px 0px;
-  }
+.attr3.is-open {
+  border-bottom: 1px solid;
+  border-bottom-color: black;
+  border-radius: 0px 8px 0px 0px;
+}
 
 /* Row-spanning bars */
 .lineBeta {
@@ -201,11 +209,10 @@ background-color: var(--complement-dark);
   background-color: var(--complement-lighter);
   border-radius: 0px 0px 8px 8px;
 
-/*Test*/
+  /*Test*/
   display: flex;
   align-items: left;
   justify-content: left;
   position: relative;
 }
-
 </style>

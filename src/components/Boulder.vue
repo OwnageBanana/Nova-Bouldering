@@ -1,66 +1,56 @@
 ﻿<script setup>
-import { ref } from 'vue'
-import Problem from './Problem.vue'
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import rawData from '@assets/master_list.json';
-import { processData } from './DataProcessor';
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import Problem from '@components/Problem.vue'
+import rawData from '@assets/master_list.json'
+import { processData } from '@modules/DataProcessor.js'
 
-const props = defineProps(['zoneName', 'cragName', 'areaName', 'boulderName', 'face']);
+const props = defineProps(['zoneName', 'cragName', 'areaName', 'boulderName', 'face'])
 
-const route = useRoute();
+const route = useRoute()
 
-const dataMap = processData(rawData);
+const dataMap = processData(rawData)
 
 const lineList = computed(() => {
-
-  const faceData = dataMap[props.zoneName]
-    ?.[props.cragName]
-    ?.[props.areaName]
-    ?.[props.boulderName]
-    ?.[props.face];
+  const faceData =
+    dataMap[props.zoneName]?.[props.cragName]?.[props.areaName]?.[props.boulderName]?.[props.face]
 
   return faceData?.lines
-    ? faceData.lines.map(lineObj => ({
+    ? faceData.lines.map((lineObj) => ({
         name: lineObj.Line,
         grade: lineObj.Grade,
-        beta: lineObj.Beta
+        beta: lineObj.Beta,
       }))
-    : [];
-});
-
-//get min and max grade, as well as count
-const boulderStats = computed(() => {
-  if (!lineList.value || lineList.value.length === 0) {
-    return { min: 0, max: 0, count: 0 };
-  }
-
-  const grades = lineList.value.map(line => Number(line.grade));
-
-  return {
-    min: Math.min(...grades),
-    max: Math.max(...grades),
-    count: lineList.value.length
-  };
-});
+    : []
+})
 </script>
 
 <template>
   <div class="boulder">
     <div class="parent">
       <div class="boulderName">
-        <h3 class="boulderTitle">{{ boulderName }} {{ face }}</h3>
-        <div class="testLabel"><b>{{boulderStats.count}} Problems [V{{boulderStats.min}} - V{{boulderStats.max}}]</b></div>
+        <div>
+          <h3>{{ boulderName }} {{ face }}</h3>
+        </div>
       </div>
       <div class="drawing-container">
-      <div class="boulderPhoto"><img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px;" /></div>
+        <div class="boulderPhoto">
+          <img src="@assets/images/Boulder_Image.jpg" style="border-radius: 12px" />
+        </div>
         <svg class="overlay-svg" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-        <polyline points="100,100 400,250" stroke="red" fill="none" stroke-width="4" />
-      </svg>
+          <!-- Lines and points will be rendered here via Vue -->
+          <polyline points="100,100 400,250" stroke="red" fill="none" stroke-width="4" />
+        </svg>
       </div>
     </div>
-      <div v-if="lineList.length > 0">
-        <Problem v-for="line in lineList" :key="line" :grade="line.grade" :lineName="line.name" :beta="line.beta"></Problem>
+    <div v-if="lineList.length > 0">
+      <Problem
+        v-for="line in lineList"
+        :key="line"
+        :grade="line.grade"
+        :lineName="line.name"
+        :beta="line.beta"
+      ></Problem>
     </div>
   </div>
 </template>
@@ -68,10 +58,9 @@ const boulderStats = computed(() => {
 <style scoped>
 .parent {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   width: 100%;
   place-items: center;
-
 }
 
 .drawing-container {
@@ -92,13 +81,13 @@ const boulderStats = computed(() => {
 }
 
 .boulder {
-    width: 80%;
-    margin: 25px;
-    display: flexbox;
-   background-color: color-mix(in srgb, var(--complement-darker), transparent 70%);
-    border: 1px solid black;
-    border-radius: 8px;
-    padding: 8px;
+  width: 80%;
+  margin: 25px;
+  display: flexbox;
+  background-color: rgb(18, 18, 18);
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 8px;
 }
 
 .boulderName {
@@ -112,17 +101,6 @@ const boulderStats = computed(() => {
   border-radius: 8px 8px 0px 0px;
   border: 1px solid black;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.boulderTitle {
-  margin: 0;
-  font-size: 1.17em;
-}
-
-.testLabel {
-  position: absolute;
-  right: 15px;
-  font-size: 0.9em;
 }
 
 .boulderPhoto {
@@ -209,5 +187,4 @@ html.dark .pfp {
     max-height: 380px;
   }
 }
-
 </style>

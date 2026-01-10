@@ -1,39 +1,45 @@
 <script setup>
-
 import { ref } from 'vue'
-import Area from './Area.vue'
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import rawData from '@assets/master_list.json';
-import { processData } from './DataProcessor';
+import Area from '@components/Area.vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import rawData from '@assets/master_list.json'
+import { processData } from '@modules/DataProcessor.js'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
 
-const route = useRoute();
+const route = useRoute()
 
 //receive zone and crag name from router
-const props = defineProps(['zoneName', 'cragName']);
+const props = defineProps(['zoneName', 'cragName'])
 
-const dataMap = processData(rawData);
+const dataMap = processData(rawData)
 
-  const areaList = computed(() => {
-  const zone = dataMap[props.zoneName];
+const areaList = computed(() => {
+  const zone = dataMap[props.zoneName]
   if (zone && zone[props.cragName]) {
-    return Object.keys(zone[props.cragName]);
+    return Object.keys(zone[props.cragName])
   }
-  return [];
-});
+  return []
+})
 </script>
-
 
 <template>
   <div class="layout">
     <!-- makes breadcrumb.. .yummy...-->
-    <h2><router-link :to="{ name: 'crags' }"> {{ zoneName }} </router-link> > {{ cragName }}</h2>
+    <h2>
+      <router-link :to="{ name: 'crags' }"> {{ zoneName }} </router-link> > {{ cragName }}
+    </h2>
 
     <div v-if="areaList.length > 0">
-      <Area v-for="area in areaList" :key="area" :area="area" :crag="cragName" :zone="zoneName"></Area>
+      <Area
+        v-for="area in areaList"
+        :key="area"
+        :area="area"
+        :crag="cragName"
+        :zone="zoneName"
+      ></Area>
     </div>
     <p v-else>No areas found for this crag.</p>
   </div>

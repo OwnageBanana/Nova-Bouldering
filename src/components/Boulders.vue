@@ -1,75 +1,87 @@
 ﻿<script setup>
-
-import { ref } from 'vue'
-import Boulder from './Boulder.vue'
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import rawData from '@assets/master_list.json';
-import { processData } from './DataProcessor';
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import rawData from '@assets/master_list.json'
+import Boulder from '@components/Boulder.vue'
+import { processData } from '@modules/DataProcessor.js'
 
 // using string matching because I need radio button like flow on selected sections
 let sectionSelection = ref('tech')
 
-const route = useRoute();
+const route = useRoute()
 
 //receive zone and crag name from router
-const props = defineProps(['propZoneName', 'propCragName', 'propAreaName']);
+const props = defineProps(['propZoneName', 'propCragName', 'propAreaName'])
 
-const dataMap = processData(rawData);
+const dataMap = processData(rawData)
 
 const faceList = computed(() => {
-  const area = dataMap[props.propZoneName]?.[props.propCragName]?.[props.propAreaName];
-  if (!area) return [];
+  const area = dataMap[props.propZoneName]?.[props.propCragName]?.[props.propAreaName]
+  if (!area) return []
 
-  const flattenedFaces = [];
+  const flattenedFaces = []
 
-  Object.keys(area).forEach(blocName => {
-    Object.keys(area[blocName]).forEach(faceName => {
-
+  Object.keys(area).forEach((blocName) => {
+    Object.keys(area[blocName]).forEach((faceName) => {
       if (faceName !== 'lines') {
-        flattenedFaces.push({blocName: blocName,faceName: faceName, id: `${blocName}-${faceName}`
-        });
+        flattenedFaces.push({
+          blocName: blocName,
+          faceName: faceName,
+          id: `${blocName}-${faceName}`,
+        })
       }
-    });
-  });
+    })
+  })
 
-  return flattenedFaces;
-});
+  return flattenedFaces
+})
 </script>
 
 <template>
   <div class="layout">
     <!-- makes breadcrumb.. .yummy...-->
-    <h2><router-link :to="{ name: 'crags' }"> {{ propZoneName }} </router-link> > <router-link :to="{ name: 'areas', params: { zoneName: propZoneName, cragName: propCragName } }"> {{ propCragName }} </router-link> > {{propAreaName}}</h2>
+    <h2>
+      <router-link :to="{ name: 'crags' }"> {{ propZoneName }} </router-link> >
+      <router-link
+        :to="{ name: 'areas', params: { zoneName: propZoneName, cragName: propCragName } }"
+      >
+        {{ propCragName }}
+      </router-link>
+      > {{ propAreaName }}
+    </h2>
 
     <div class="boulders" v-if="faceList.length > 0">
-      <Boulder v-for="face in faceList" :key="bloc" :areaName="propAreaName" :cragName="propCragName" :zoneName="propZoneName" :boulderName="face.blocName" :face="face.faceName"></Boulder>
+      <Boulder
+        v-for="face in faceList"
+        :key="bloc"
+        :areaName="propAreaName"
+        :cragName="propCragName"
+        :zoneName="propZoneName"
+        :boulderName="face.blocName"
+        :face="face.faceName"
+      ></Boulder>
     </div>
     <p v-else>No blocs found for this area.</p>
-
   </div>
 </template>
 
 <style scoped>
 @import url('@assets/modules/sections.module.css');
 
-
 .layout {
   display: flex;
   flex-direction: column;
-   background-color: color-mix(in srgb, var(--complement-darker), transparent 80%);
+  background-color: color-mix(in srgb, var(--complement-darker), transparent 80%);
   border: 1px solid var(--complement-darkest);
   padding: 15px;
   border-radius: 12px;
   backdrop-filter: blur(8px) brightness(1.4) saturate(120%);
 }
 
-
 .boulders {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .pfp-container {
