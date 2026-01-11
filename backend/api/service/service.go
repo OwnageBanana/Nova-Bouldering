@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -24,7 +25,15 @@ func (svc *NBService) AuthWriteAccess (w http.ResponseWriter, r *http.Request) {
 }
 
 func (svc *NBService) GetAll(w http.ResponseWriter, r *http.Request) {
-	http.Error(w,"Not Imlemented", http.StatusNotImplemented)
+	ctx := r.Context()
+	all, err := database.GetFullHierarchy(ctx, svc.Postgres)
+	if (err != nil) {
+		log.Printf("failed query on get all: %v", err.Error())
+		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(all)
 }
 
 func (svc *NBService) UpdateClimb(w http.ResponseWriter, r *http.Request) {

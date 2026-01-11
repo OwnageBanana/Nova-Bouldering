@@ -3,6 +3,7 @@ package pkg
 import (
 	// "database/sql"
 	"context"
+	"database/sql"
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
@@ -13,46 +14,46 @@ import (
 )
 
 type Zone struct {
-	Id          int32           `json:'id'`
-	Name        string          `json:'name'`
-	Region      string          `json:'region'`
-	Description string          `json:'description'`
-	Latitude    decimal.Decimal `json:'latitude'`
-	Longitude   decimal.Decimal `json:'longitude'`
-	Metadata    map[string]any  `json:'metadata'`
+	Id          int32           `json:"id"`
+	Name        string          `json:"name"`
+	Region      string          `json:"region"`
+	Description string          `json:"description"`
+	Latitude    decimal.Decimal `json:"latitude"`
+	Longitude   decimal.Decimal `json:"longitude"`
+	Metadata    map[string]any  `json:"metadata"`
 }
 
 // -- eg Land of Confusion
 type Crag struct {
-	Id          int32
-	Zone_id     int32
-	Name        string
-	Description string
-	Latitude    decimal.Decimal
-	Longitude   decimal.Decimal
-	Metadata    map[string]any
+	Id          int32           `json:"id"`
+	ZoneId      int32           `json:"zone_id"`
+	Name        string          `json:"name"`
+	Description string          `json:"description"`
+	Latitude    decimal.Decimal `json:"latitude"`
+	Longitude   decimal.Decimal `json:"longitude"`
+	Metadata    map[string]any  `json:"metadata"`
 }
 
 // -- eg corn and Bung
 type Area struct {
-	Id          int32
-	Crag_id     int32
-	Name        string
-	Description string
-	Latitude    decimal.Decimal
-	Longitude   decimal.Decimal
-	Metadata    map[string]any
+	Id          int32           `json:"id"`
+	CragId      int32           `json:"crag_id"`
+	Name        string          `json:"name"`
+	Description string          `json:"description"`
+	Latitude    decimal.Decimal `json:"latitude"`
+	Longitude   decimal.Decimal `json:"longitude"`
+	Metadata    map[string]any  `json:"metadata"`
 }
 
 // -- Upper Boulder West
 type Boulder struct {
-	Id          int32
-	Area_id     int32
-	Name        string
-	Description string
-	Latitude    decimal.Decimal
-	Longitude   decimal.Decimal
-	Metadata    map[string]any
+	Id          int32           `json:"id"`
+	AreaId      int32           `json:"area_id"`
+	Name        string          `json:"name"`
+	Description string          `json:"description"`
+	Latitude    decimal.Decimal `json:"latitude"`
+	Longitude   decimal.Decimal `json:"longitude"`
+	Metadata    map[string]any  `json:"metadata"`
 }
 
 // CREATE TYPE DIRECTION AS ENUM ('north', 'south', 'east', 'west');
@@ -63,11 +64,12 @@ const (
 	South Direction = "south"
 	East  Direction = "east"
 	West  Direction = "west"
+	None  Direction = ""
 )
 
 func (d Direction) IsValid() bool {
 	switch d {
-	case North, South, East, West:
+	case North, South, East, West, None:
 		return true
 	}
 	return false
@@ -76,16 +78,23 @@ func (d Direction) IsValid() bool {
 // Scan implements the sql.Scanner interface to read from the DB
 func (d *Direction) Scan(value any) error {
 	if value == nil {
-		*d = ""
+		*d = None
 		return nil
 	}
 
-	val, ok := value.([]byte)
-	if !ok {
+	switch v := value.(type) {
+	case []byte:
+		*d = Direction(v)
+	case string:
+		*d = Direction(v)
+	default:
 		return fmt.Errorf("unsupported Scan, storing driver.Value type %T into Direction", value)
 	}
 
-	*d = Direction(val)
+	if !d.IsValid() {
+		return fmt.Errorf("invalid Direction value: %s", string(*d))
+	}
+
 	return nil
 }
 
@@ -95,24 +104,24 @@ func (d Direction) Value() (driver.Value, error) {
 }
 
 type LineItem struct {
-	X int `json:"x"`
-	Y int `json:"y"`
+	X int32 `json:"x"`
+	Y int32 `json:"y"`
 }
 
 type Route struct {
-	ID    int
-	Lines []LineItem // This maps to JSONB DEFAULT '[]'
+	Id    int32      `json:"id"`
+	Lines []LineItem `json:"lines"`
 }
 
 type Climb struct {
-	Id          int32
-	Boulder_id  int32
-	Face        Direction
-	Name        string
-	Description string
-	Grade       string
-	Line        Route
-	Metadata    map[string]any
+	Id          int32          `json:"id"`
+	BoulderId   int32          `json:"boulder_id"`
+	Face        Direction      `json:"face"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Grade       string         `json:"grade"`
+	Line        Route          `json:"line"`
+	Metadata    map[string]any `json:"metadata"`
 }
 
 type LineItems []LineItem
@@ -141,9 +150,9 @@ type Tag struct {
 
 // -- tags associated to the specific climb.
 type ClimbingTag struct {
-	Id       int32
-	Tag_id   int32
-	Climb_id int32
+	Id      int32 `json:"Id"`
+	TagId   int32 `json:"TagId"`
+	ClimbId int32 `json:"ClimbId"`
 }
 
 // GetAllClimbs retrieves all records from the climbs table.
@@ -178,7 +187,7 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
 		// 3. Scan into variables (use pointers for basic types, byte slices for JSON)
 		err := rows.Scan(
 			&c.Id,
-			&c.Boulder_id,
+			&c.BoulderId,
 			&c.Face,
 			&c.Name,
 			&c.Description,
@@ -241,7 +250,7 @@ func UpdateClimb(ctx context.Context, db *pgxpool.Pool, c Climb) error {
 
 	// 3. Execute the query
 	result, err := db.Exec(ctx, query,
-		c.Boulder_id,
+		c.BoulderId,
 		c.Face,
 		c.Name,
 		c.Description,
@@ -283,4 +292,215 @@ func GetAllTags(ctx context.Context, db *pgxpool.Pool) (tags []Tag, err error) {
 		tags = append(tags, tag)
 	}
 	return
+}
+
+// Wrapper structs to hold the hierarchy
+type ZoneNode struct {
+	Zone
+	Crags []*CragNode `json:"crags"`
+}
+
+type CragNode struct {
+	Crag
+	Areas []*AreaNode `json:"areas"`
+}
+
+type AreaNode struct {
+	Area
+	Boulders []*BoulderNode `json:"boulders"`
+}
+
+type BoulderNode struct {
+	Boulder
+	Climbs []Climb `json:"climbs"`
+	// Climbs are the leaves, so they use the base struct
+}
+
+func GetFullHierarchy(ctx context.Context, db *pgxpool.Pool) ([]*ZoneNode, error) {
+	// 1. Join all tables from top (Zones) to bottom (Climbs)
+	query := `
+SELECT
+        -- Zone (Always present, no Coalesce needed)
+        z.id, z.name, z.region, z.description, z.latitude, z.longitude, z.metadata,
+
+        -- Crag (Left Join -> Might be NULL)
+        COALESCE(c.id, 0) as id,
+        COALESCE(c.zone_id, 0) as zone_id,
+        COALESCE(c.name, '') as name,
+        COALESCE(c.description, '') as description,
+        COALESCE(c.latitude, 0) as latitude,
+        COALESCE(c.longitude, 0) as longitude,
+        c.metadata, -- Metadata handles NULLs automatically in Go (reads as nil byte slice)
+
+        -- Area
+        COALESCE(a.id, 0) as id,
+        COALESCE(a.crag_id, 0) as crag_id,
+        COALESCE(a.name, '') as name,
+        COALESCE(a.description, '') as description,
+        COALESCE(a.latitude, 0) as latitude,
+        COALESCE(a.longitude, 0) as longitude,
+        a.metadata,
+
+        -- Boulder
+        COALESCE(b.id, 0) as id,
+        COALESCE(b.area_id, 0) as area_id,
+        COALESCE(b.name, '') as name,
+        COALESCE(b.description, '') as description,
+        COALESCE(b.latitude, 0) as latitude,
+        COALESCE(b.longitude, 0) as longitude,
+        b.metadata,
+
+        -- Climb
+        COALESCE(cl.id, 0) as id,
+        COALESCE(cl.boulder_id, 0) as boulder_id,
+        COALESCE(cl.face, '') as face,
+        COALESCE(cl.name, '') as name,
+        COALESCE(cl.description, '') as description,
+        COALESCE(cl.grade, '') as grade,
+        cl.line,
+        cl.metadata
+    FROM zones z
+    LEFT JOIN crags c ON c.zone_id = z.id
+    LEFT JOIN areas a ON a.crag_id = c.id
+    LEFT JOIN boulders b ON b.area_id = a.id
+    LEFT JOIN climbs cl ON cl.boulder_id = b.id
+    ORDER BY z.id, c.id, a.id, b.id, cl.id;
+	`
+
+	rows, err := db.Query(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("query failed: %w", err)
+	}
+	defer rows.Close()
+
+	// 2. Maps to keep track of unique pointers to avoid duplication
+	zoneMap := make(map[int32]*ZoneNode)
+	cragMap := make(map[int32]*CragNode)
+	areaMap := make(map[int32]*AreaNode)
+	boulderMap := make(map[int32]*BoulderNode)
+
+	// Result slice (roots)
+	var rootZones []*ZoneNode
+
+	for rows.Next() {
+		// Temporary holders for nullable IDs (to handle LEFT JOIN nulls)
+		var zID int32
+		var cID, aID, bID, clID sql.NullInt32
+
+		// Temporary structs to scan data into
+		var z Zone
+		var c Crag
+		var a Area
+		var b Boulder
+		var cl Climb
+
+		// Byte slices for JSON fields
+		var zMeta, cMeta, aMeta, bMeta, clMeta, clLine []byte
+
+		// 3. Scan all columns
+		// Note: We scan IDs into temp variables first to check for NULLs
+		err := rows.Scan(
+			// Zone
+			&zID, &z.Name, &z.Region, &z.Description, &z.Latitude, &z.Longitude, &zMeta,
+			// Crag
+			&cID, &c.ZoneId, &c.Name, &c.Description, &c.Latitude, &c.Longitude, &cMeta,
+			// Area
+			&aID, &a.CragId, &a.Name, &a.Description, &a.Latitude, &a.Longitude, &aMeta,
+			// Boulder
+			&bID, &b.AreaId, &b.Name, &b.Description, &b.Latitude, &b.Longitude, &bMeta,
+			// Climb
+			&clID, &cl.BoulderId, &cl.Face, &cl.Name, &cl.Description, &cl.Grade, &clLine, &clMeta,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		// 4. Process Zone
+		z.Id = zID
+		if len(zMeta) > 0 {
+			_ = json.Unmarshal(zMeta, &z.Metadata)
+		}
+
+		zoneNode, exists := zoneMap[z.Id]
+		if !exists {
+			zoneNode = &ZoneNode{Zone: z, Crags: []*CragNode{}}
+			zoneMap[z.Id] = zoneNode
+			rootZones = append(rootZones, zoneNode)
+		}
+
+		// 5. Process Crag (Check if exists, because LEFT JOIN might return NULL)
+		if !cID.Valid {
+			continue
+		}
+		c.Id = int32(cID.Int32)
+		if len(cMeta) > 0 {
+			_ = json.Unmarshal(cMeta, &c.Metadata)
+		}
+
+		if c.Id == 0 {
+			continue
+		}
+		cragNode, exists := cragMap[c.Id]
+		if !exists {
+			cragNode = &CragNode{Crag: c, Areas: []*AreaNode{}}
+			cragMap[c.Id] = cragNode
+			// Link to parent
+			zoneNode.Crags = append(zoneNode.Crags, cragNode)
+		}
+
+		// 6. Process Area
+		if !aID.Valid {
+			continue
+		}
+		a.Id = int32(aID.Int32)
+		if len(aMeta) > 0 {
+			_ = json.Unmarshal(aMeta, &a.Metadata)
+		}
+		if a.Id == 0 {
+			continue
+		}
+		areaNode, exists := areaMap[a.Id]
+		if !exists {
+			areaNode = &AreaNode{Area: a, Boulders: []*BoulderNode{}}
+			areaMap[a.Id] = areaNode
+			// Link to parent
+			cragNode.Areas = append(cragNode.Areas, areaNode)
+		}
+
+		// 7. Process Boulder
+		if !bID.Valid {
+			continue
+		}
+		b.Id = int32(bID.Int32)
+		if len(bMeta) > 0 {
+			_ = json.Unmarshal(bMeta, &b.Metadata)
+		}
+		if b.Id == 0 {
+			continue
+		}
+		boulderNode, exists := boulderMap[b.Id]
+		if !exists {
+			boulderNode = &BoulderNode{Boulder: b, Climbs: []Climb{}}
+			boulderMap[b.Id] = boulderNode
+			// Link to parent
+			areaNode.Boulders = append(areaNode.Boulders, boulderNode)
+		}
+
+		// 8. Process Climb
+		if !clID.Valid {
+			continue
+		}
+		cl.Id = int32(clID.Int32)
+		if len(clMeta) > 0 {
+			_ = json.Unmarshal(clMeta, &cl.Metadata)
+		}
+		if len(clLine) > 0 {
+			_ = json.Unmarshal(clLine, &cl.Line)
+		}
+
+		// Add climb to boulder (Climbs are leaves, no map needed unless deduping specific climbs)
+		boulderNode.Climbs = append(boulderNode.Climbs, cl)
+	}
+
+	return rootZones, nil
 }

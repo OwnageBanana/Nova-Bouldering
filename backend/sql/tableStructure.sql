@@ -12,9 +12,9 @@ DROP TYPE IF EXISTS DIRECTION;
 -- eg peggy's cove
 CREATE TABLE ZONES (
     id SERIAL PRIMARY KEY,
-    name TEXT,
-    region TEXT,
-    description TEXT,
+    name TEXT DEFAULT '',
+    region TEXT DEFAULT '',
+    description TEXT DEFAULT '',
     latitude DECIMAL(9,6) DEFAULT 0,
     longitude DECIMAL(9,6) DEFAULT 0,
     metadata JSONB
@@ -53,12 +53,12 @@ CREATE TABLE BOULDERS (
     metadata JSONB default '{}'
 );
 
-CREATE TYPE DIRECTION AS ENUM ('north', 'south', 'east', 'west');
+CREATE TYPE DIRECTION AS ENUM ('north', 'south', 'east', 'west', '');
 
 CREATE TABLE CLIMBS (
     id SERIAL PRIMARY KEY,
     boulder_id INTEGER REFERENCES boulders(id) ON DELETE CASCADE,
-    face DIRECTION,
+    face DIRECTION DEFAULT '',
     name TEXT DEFAULT '',
     description TEXT DEFAULT '',
     grade TEXT DEFAULT 'V?', -- e.g., 'V5' or '7A'
@@ -68,7 +68,7 @@ CREATE TABLE CLIMBS (
 
 CREATE TABLE TAGS (
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT default ''
 );
 
 -- tags associated to the specific climb.

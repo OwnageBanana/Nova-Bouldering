@@ -11,7 +11,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	// "novabouldering.com/data/pkg/database"
-	pkg "novabouldering.ca/backend/api/pkg"
+
 	svc "novabouldering.ca/backend/api/service"
 )
 
@@ -56,11 +56,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer dbPool.Close()
-	t, err := pkg.GetAllTags(context.Background(), dbPool)
-		if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("%#v", t[0])
+
 	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey }
 
 	mux := http.NewServeMux()

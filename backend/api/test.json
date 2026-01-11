@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "name": "Herring Cove",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.577007",
+    "longitude": "-63.550592",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 2,
+    "name": "Chebucto Head",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.501763",
+    "longitude": "-63.524395",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 3,
+    "name": "Crystal Crescent",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.45999",
+    "longitude": "-63.622073",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 4,
+    "name": "Prospect",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.471228",
+    "longitude": "-63.790843",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 5,
+    "name": "West Dover",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.491659",
+    "longitude": "-63.869845",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 6,
+    "name": "Peggy's Cove",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "44.497615",
+    "longitude": "-63.915399",
+    "metadata": null,
+    "crags": [
+      {
+        "id": 1,
+        "zone_id": 6,
+        "name": "Land of Confusion",
+        "description": "",
+        "latitude": "0",
+        "longitude": "0",
+        "metadata": {},
+        "areas": [
+          {
+            "id": 1,
+            "crag_id": 1,
+            "name": "Corn \u0026 Bung",
+            "description": "",
+            "latitude": "44.498149",
+            "longitude": "-63.902713",
+            "metadata": {},
+            "boulders": [
+              {
+                "id": 1,
+                "area_id": 1,
+                "name": "Corn",
+                "description": "Upper Boulder",
+                "latitude": "0",
+                "longitude": "0",
+                "metadata": {},
+                "climbs": [
+                  {
+                    "id": 1,
+                    "boulder_id": 1,
+                    "face": "west",
+                    "name": "Jackalopes Can Kill",
+                    "description": "",
+                    "grade": "V4",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 2,
+                    "boulder_id": 1,
+                    "face": "west",
+                    "name": "Jackpot",
+                    "description": "",
+                    "grade": "V0",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 3,
+                    "boulder_id": 1,
+                    "face": "west",
+                    "name": "Cornholio",
+                    "description": "",
+                    "grade": "V4",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 4,
+                    "boulder_id": 1,
+                    "face": "west",
+                    "name": "It's A Disease",
+                    "description": "",
+                    "grade": "V8",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 5,
+                    "boulder_id": 1,
+                    "face": "north",
+                    "name": "Resurrection",
+                    "description": "",
+                    "grade": "V8",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 6,
+                    "boulder_id": 1,
+                    "face": "north",
+                    "name": "Carbosaurus",
+                    "description": "",
+                    "grade": "V10",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 7,
+                    "boulder_id": 1,
+                    "face": "north",
+                    "name": "Insurrection",
+                    "description": "",
+                    "grade": "V10",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 8,
+                    "boulder_id": 1,
+                    "face": "north",
+                    "name": "The Whales Back",
+                    "description": "",
+                    "grade": "V3",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 9,
+                    "boulder_id": 1,
+                    "face": "north",
+                    "name": "Can't Trust Skinny People",
+                    "description": "",
+                    "grade": "V6",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 10,
+                    "boulder_id": 1,
+                    "face": "east",
+                    "name": "Captain Hook",
+                    "description": "",
+                    "grade": "V5",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  }
+                ]
+              },
+              {
+                "id": 2,
+                "area_id": 1,
+                "name": "Bung",
+                "description": "Lower Boulder",
+                "latitude": "0",
+                "longitude": "0",
+                "metadata": {},
+                "climbs": [
+                  {
+                    "id": 11,
+                    "boulder_id": 2,
+                    "face": "west",
+                    "name": "Taco Dish",
+                    "description": "",
+                    "grade": "V3",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 12,
+                    "boulder_id": 2,
+                    "face": "west",
+                    "name": "Overdrive",
+                    "description": "",
+                    "grade": "V10",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 13,
+                    "boulder_id": 2,
+                    "face": "north",
+                    "name": "Piranha",
+                    "description": "",
+                    "grade": "V6",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 14,
+                    "boulder_id": 2,
+                    "face": "north",
+                    "name": "Joe Boxer",
+                    "description": "",
+                    "grade": "V6",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 15,
+                    "boulder_id": 2,
+                    "face": "east",
+                    "name": "Memory Block",
+                    "description": "",
+                    "grade": "V2",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 16,
+                    "boulder_id": 2,
+                    "face": "east",
+                    "name": "White Cracker",
+                    "description": "",
+                    "grade": "V0",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 17,
+                    "boulder_id": 2,
+                    "face": "east",
+                    "name": "Razors Edge",
+                    "description": "",
+                    "grade": "V2",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 18,
+                    "boulder_id": 2,
+                    "face": "east",
+                    "name": "Dancing to the New Bolaro",
+                    "description": "",
+                    "grade": "V9",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 19,
+                    "boulder_id": 2,
+                    "face": "south",
+                    "name": "Milking The Cow",
+                    "description": "",
+                    "grade": "V7",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  },
+                  {
+                    "id": 20,
+                    "boulder_id": 2,
+                    "face": "south",
+                    "name": "Milking The Cow (Stand)",
+                    "description": "",
+                    "grade": "V5",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": {}
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "crag_id": 1,
+            "name": "Gros Poisson \u0026 Jungle",
+            "description": "",
+            "latitude": "44.496239",
+            "longitude": "-63.897941",
+            "metadata": {},
+            "boulders": [
+              {
+                "id": 0,
+                "area_id": 0,
+                "name": "",
+                "description": "",
+                "latitude": "0",
+                "longitude": "0",
+                "metadata": null,
+                "climbs": [
+                  {
+                    "id": 0,
+                    "boulder_id": 0,
+                    "face": "",
+                    "name": "",
+                    "description": "",
+                    "grade": "",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": null
+                  },
+                  {
+                    "id": 0,
+                    "boulder_id": 0,
+                    "face": "",
+                    "name": "",
+                    "description": "",
+                    "grade": "",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": null
+                  },
+                  {
+                    "id": 0,
+                    "boulder_id": 0,
+                    "face": "",
+                    "name": "",
+                    "description": "",
+                    "grade": "",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": null
+                  },
+                  {
+                    "id": 0,
+                    "boulder_id": 0,
+                    "face": "",
+                    "name": "",
+                    "description": "",
+                    "grade": "",
+                    "line": {
+                      "id": 0,
+                      "lines": null
+                    },
+                    "metadata": null
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "crag_id": 1,
+            "name": "The Scoop",
+            "description": "",
+            "latitude": "44.494133",
+            "longitude": "-63.8924",
+            "metadata": {},
+            "boulders": []
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "zone_id": 6,
+        "name": "Dover Island",
+        "description": "",
+        "latitude": "0",
+        "longitude": "0",
+        "metadata": {},
+        "areas": [
+          {
+            "id": 0,
+            "crag_id": 0,
+            "name": "",
+            "description": "",
+            "latitude": "0",
+            "longitude": "0",
+            "metadata": null,
+            "boulders": []
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "zone_id": 6,
+        "name": "Polly's Cove",
+        "description": "",
+        "latitude": "0",
+        "longitude": "0",
+        "metadata": {},
+        "areas": []
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "West Pennant",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "0",
+    "longitude": "0",
+    "metadata": null,
+    "crags": []
+  },
+  {
+    "id": 8,
+    "name": "Terrence Bay",
+    "region": "Southern Shore",
+    "description": "",
+    "latitude": "0",
+    "longitude": "0",
+    "metadata": null,
+    "crags": []
+  }
+]
