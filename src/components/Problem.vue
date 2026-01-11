@@ -56,6 +56,12 @@ const toggleRows = () => {
       <div class="lineFA" :class="{ 'is-open': isOpen }">
         <div style="margin: 15px">FA: {{ fa }}</div>
       </div>
+
+      <div class="lineTags" :class="{ 'is-open': isOpen }">
+        <div class="tag">Crimpy</div>
+        <div class="tag">Sharp</div>
+        <div class="tag">Delicate</div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +72,7 @@ const toggleRows = () => {
   grid-template-columns: 40px 1fr 40px 40px 40px;
 
   /* Use 0fr for the hidden rows */
-  grid-template-rows: 40px 0fr 0fr;
+  grid-template-rows: 40px 0fr 0fr 0fr;
 
   overflow: hidden;
 
@@ -83,7 +89,7 @@ const toggleRows = () => {
 
 /* expanded state */
 .parent2.is-open {
-  grid-template-rows: 40px 1fr 1fr;
+  grid-template-rows: 40px 1fr 1fr 1fr;
 }
 
 /* prevent content bleed */
@@ -98,13 +104,13 @@ const toggleRows = () => {
   display: grid;
   place-items: center;
   border-radius: 8px 0px 0px 8px;
-
+  font-weight: 1000;
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition:
     border-radius 0.35s ease,
     border-bottom-color 0.35s ease;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .lineGrade.is-open {
@@ -114,19 +120,21 @@ const toggleRows = () => {
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
-  background-color: var(--complement-light);
+  background: linear-gradient(to right, var(--complement-light) 0%, var(--complement-light) 70%, var(--complement-dark) 88%);
   display: grid;
-  place-items: center;
+  align-items: center;   /* Vertical centering */
+  justify-items: start;
+  padding-left: 12px;
   cursor: pointer;
   border-left: 1px solid black;
-  border-right: 1px solid black;
   border-bottom: 1px solid;
   border-bottom-color: rgba(0, 0, 0, 0);
   transition: border-bottom-color 0.35s ease;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 800;
 
   &:hover {
-    background-color: var(--complement-light);
+     background: var(--complement-dark) 88%;
   }
 }
 
@@ -207,12 +215,34 @@ const toggleRows = () => {
   min-height: 0;
   display: grid;
   background-color: var(--complement-lighter);
-  border-radius: 0px 0px 8px 8px;
-
-  /*Test*/
   display: flex;
   align-items: left;
   justify-content: left;
   position: relative;
+}
+
+.lineTags {
+  grid-area: 4 / 1 / 4 / 6;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  background-color: var(--complement-lighter);
+  border-radius: 0px 0px 8px 8px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  position: relative;
+}
+
+.tag {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 8px;
+  height: 30px;
+  align-items:center;   /* Vertical centering */
+  justify-items:center;
+  background-color: var(--complement-light);
 }
 </style>
