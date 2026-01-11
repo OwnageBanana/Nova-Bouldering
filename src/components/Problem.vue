@@ -56,6 +56,12 @@ const toggleRows = () => {
       <div class="lineFA" :class="{ 'is-open': isOpen }">
         <div style="margin: 15px">FA: {{ fa }}</div>
       </div>
+
+      <div class="lineTags" :class="{ 'is-open': isOpen }">
+        <div class="tag">Crimpy</div>
+        <div class="tag">Sharp</div>
+        <div class="tag">Delicate</div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +72,7 @@ const toggleRows = () => {
   grid-template-columns: 40px 1fr 40px 40px 40px;
 
   /* Use 0fr for the hidden rows */
-  grid-template-rows: 40px 0fr 0fr;
+  grid-template-rows: 40px 0fr 0fr 0fr;
 
   overflow: hidden;
 
@@ -83,7 +89,7 @@ const toggleRows = () => {
 
 /* expanded state */
 .parent2.is-open {
-  grid-template-rows: 40px 1fr 1fr;
+  grid-template-rows: 40px 1fr 1fr 1fr;
 }
 
 /* prevent content bleed */
@@ -209,12 +215,34 @@ const toggleRows = () => {
   min-height: 0;
   display: grid;
   background-color: var(--complement-lighter);
-  border-radius: 0px 0px 8px 8px;
-
-  /*Test*/
   display: flex;
   align-items: left;
   justify-content: left;
   position: relative;
+}
+
+.lineTags {
+  grid-area: 4 / 1 / 4 / 6;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  background-color: var(--complement-lighter);
+  border-radius: 0px 0px 8px 8px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  position: relative;
+}
+
+.tag {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 8px;
+  height: 30px;
+  align-items:center;   /* Vertical centering */
+  justify-items:center;
+  background-color: var(--complement-light);
 }
 </style>
