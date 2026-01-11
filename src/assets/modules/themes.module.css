@@ -29,10 +29,10 @@
 
   --complement-darkest: #1e1e1e;
   --complement-darker: #5c5c5c;
-  --complement-dark: #dabbd0;
+  --complement-dark: #DABBD0;
   --complement: #838383;
   --complement-bright: #979797;
-  --complement-light: #e8ddef;
+  --complement-light: #E8DDEF;
   --complement-lighter: #e2eaf1;
 }
 /* the names in the dark theme are really going to represent to oposite of what they say,

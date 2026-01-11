@@ -42,12 +42,12 @@ const boulderStats = computed(() => {
 
 <template>
   <div class="boulder">
+
     <div class="parent">
       <div class="boulderName">
         <h3 class="boulderTitle">{{ boulderName }} {{ face }}</h3>
         <div class="testLabel">
-          <b
-            >{{ boulderStats.count }} Problems [V{{ boulderStats.min }} - V{{
+          <b>{{ boulderStats.count }} Problems [V{{ boulderStats.min }} - V{{
               boulderStats.max
             }}]</b
           >
@@ -113,18 +113,54 @@ const boulderStats = computed(() => {
   width: 100%;
   height: 40px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center;   /* Vertical centering */
+  justify-items: start;
+  padding-left: 12px;
   position: relative;
   background-color: var(--complement-light);
   border-radius: 8px 8px 0px 0px;
   border: 1px solid black;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.areaName {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;      /* Vertical centering */
+  justify-content: center;  /* Horizontal centering */
+  position: relative;
+  background-color: var(--complement-light);
+  border-radius: 8px 8px 0px 0px;
+  border: 1px solid black;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.areaDesc {
+  grid-area: 3 / 1 / 4 / 6;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  background-color: var(--complement-lighter);
+  border-radius: 0px 0px 8px 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+
+  /*Test*/
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  position: relative;
 }
 
 .boulderTitle {
   margin: 0;
   font-size: 1.17em;
+}
+
+.areaTitle {
+  margin: 0;
+  font-size: 1.37em;
 }
 
 .testLabel {
