@@ -5,34 +5,63 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	// "novabouldering.com/data/pkg/database"
+	pkg "novabouldering.ca/backend/api/pkg"
 	svc "novabouldering.ca/backend/api/service"
 )
 
 func main() {
-	// Connect using standard database/sql
-	dbURL := os.Getenv("NOVA_DATABASE_URL")
-	if dbURL == "" {
-		log.Fatal("NOVA_DATABASE_URL environment variable is not set")
+	dbUser := os.Getenv("NOVA_DATABASE_USER")
+	if dbUser == "" {
+		log.Fatal("NOVA_DATABASE_USER environment variable is not set")
 	}
-	// Connect using standard database/sql
-	writeAccessKey := os.Getenv("NOVA_DATABASE_WRITE_ACCESS_KEY")
-	if writeAccessKey == "" {
-		log.Fatal("NOVA_DATABASE_WRITE_ACCESS_KEY environment variable is not set")
+	dbPass := os.Getenv("NOVA_DATABASE_PASS")
+	if dbPass == "" {
+		log.Fatal("NOVA_DATABASE_PASS environment variable is not set")
 	}
-	// postgres://username:password@localhost:5432/database_name
-	// urlExample := "postgres://username:password@localhost:5432/database_name"
-	dbPool, err := pgxpool.New(context.Background(), dbURL)
+	dbHost := os.Getenv("NOVA_DATABASE_HOST")
+	if dbHost == "" {
+		log.Fatal("NOVA_DATABASE_HOST environment variable is not set")
+	}
+	dbName := os.Getenv("NOVA_DATABASE_DB_NAME")
+	if dbName == "" {
+		log.Fatal("NOVA_DATABASE_DB_NAME environment variable is not set")
+	}
+	writeAcessKey := os.Getenv("NOVA_WRITE_ACESS_KEY")
+	if writeAcessKey == "" {
+		log.Fatal("NOVA_WRITE_ACESS_KEY environment variable is not set")
+	}
+
+	u := &url.URL{
+		Scheme: "postgres",
+		User:   url.UserPassword(dbUser, dbPass),
+		Host:   dbHost,
+		Path:   dbName,
+	}
+	q := u.Query()
+	q.Set("sslmode", "disable")
+	u.RawQuery = q.Encode()
+
+	connectionString := u.String()
+
+	fmt.Println("Safe Connection String:")
+	fmt.Println(connectionString)
+	dbPool, err := pgxpool.New(context.Background(), connectionString)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer dbPool.Close()
-
-	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAccessKey}
+	t, err := pkg.GetAllTags(context.Background(), dbPool)
+		if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%#v", t[0])
+	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey }
 
 	mux := http.NewServeMux()
 
@@ -55,8 +84,8 @@ func main() {
 
 	mux.HandleFunc("GET /tags", service.GetAllTags)
 
-	log.Println("Server starting on :8080")
-	if err := http.ListenAndServe(":8080", mux); err != nil {
+	log.Println("Server starting on :8085")
+	if err := http.ListenAndServe(":8085", mux); err != nil {
 		log.Fatal(err)
 	}
 }
