@@ -155,7 +155,6 @@ type ClimbingTag struct {
 	ClimbId int32 `json:"ClimbId"`
 }
 
-// GetAllClimbs retrieves all records from the climbs table.
 func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
 	// 1. Define the query
 	query := `
@@ -222,8 +221,57 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
 	return climbs, nil
 }
 
+func CreateClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
+	// 1. Marshal complex types to JSON
+	lineJSON, err := json.Marshal(c.Line)
+	if err != nil {
+		return fmt.Errorf("error marshaling line: %w", err)
+	}
+
+	metadataJSON, err := json.Marshal(c.Metadata)
+	if err != nil {
+		return fmt.Errorf("error marshaling metadata: %w", err)
+	}
+
+	// 2. Define the update query
+	query := `
+        INSERT INTO climbs (boulder_id, face, name, description, grade, line, metadata)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING id`
+
+    // QueryRow lets us scan the new ID back into the pointer
+    err = db.QueryRow(ctx, query,
+        c.BoulderId, c.Face, c.Name, c.Description, c.Grade, lineJSON, metadataJSON,
+    ).Scan(&c.Id)
+
+    return err
+}
+
+func DeleteClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
+
+	// 2. Define the update query
+	query := `
+		DELETE from climbs
+		WHERE id = $1`
+
+	// 3. Execute the query
+	result, err := db.Exec(ctx, query,
+		c.Id,
+	)
+
+	if err != nil {
+		return fmt.Errorf("error executing update: %w", err)
+	}
+	// 4. Verify a row was actually updated
+	rowsAffected := result.RowsAffected()
+	if rowsAffected == 0 {
+		return fmt.Errorf("no climb found with id %d", c.Id)
+	}
+	return err
+}
+
 // UpdateClimb updates an existing climb record based on the struct's ID.
-func UpdateClimb(ctx context.Context, db *pgxpool.Pool, c Climb) error {
+func UpdateClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
 	// 1. Marshal complex types to JSON
 	lineJSON, err := json.Marshal(c.Line)
 	if err != nil {
@@ -265,15 +313,13 @@ func UpdateClimb(ctx context.Context, db *pgxpool.Pool, c Climb) error {
 
 	// 4. Verify a row was actually updated
 	rowsAffected := result.RowsAffected()
-	if err != nil {
-		return fmt.Errorf("error checking rows affected: %w", err)
-	}
 	if rowsAffected == 0 {
 		return fmt.Errorf("no climb found with id %d", c.Id)
 	}
 
 	return nil
 }
+
 
 func GetAllTags(ctx context.Context, db *pgxpool.Pool) (tags []Tag, err error) {
 
