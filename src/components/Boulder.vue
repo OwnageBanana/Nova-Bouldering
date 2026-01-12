@@ -117,7 +117,7 @@ const boulderStats = computed(() => {
   justify-items: start;
   padding-left: 12px;
   position: relative;
-  background-color: var(--complement-light);
+  background-color: var(--complement-lighter);
   border-radius: 8px 8px 0px 0px;
   border: 1px solid black;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);

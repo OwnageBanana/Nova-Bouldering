@@ -23,6 +23,19 @@ const cragsList = computed(() => {
   <div class="layout">
     <h2>{{ targetZone }}</h2>
 
+        <div class="boulders">
+      <div class="areaName">
+        <h2 class="areaTitle">{{ targetZone }}</h2>
+        <div class="testLabel">
+          <img src="@assets/icons/location-pin.png" style="border-radius: 12px; height: 35px;" />
+        </div>
+      </div>
+          <div class="areaDesc">
+          <p>No area description yet!</p>
+        </div>
+      </div>
+
+
     <div v-if="cragsList.length > 0">
       <CragObj v-for="crag in cragsList" :key="crag" :crag="crag" :zone="targetZone"></CragObj>
     </div>
@@ -34,6 +47,63 @@ const cragsList = computed(() => {
 
 <style scoped>
 @import url('@assets/modules/sections.module.css');
+
+.cragDesc {
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: var(--complement-lighter);
+  padding: 12px;
+}
+
+.boulders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.testLabel {
+  position: absolute;
+  left: 15px;
+  font-size: 0.9em;
+}
+
+.areaName {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;      /* Vertical centering */
+  justify-content: center;  /* Horizontal centering */
+  position: relative;
+  background-color: var(--complement-dark);
+  border-radius: 8px 8px 0px 0px;
+  border: 1px solid black;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 35px;
+}
+
+.areaDesc {
+  grid-area: 3 / 1 / 4 / 6;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  background-color: var(--complement-lighter);
+  border-radius: 0px 0px 8px 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid black;
+
+  /*Test*/
+  display: flex;
+  align-items: left;
+  justify-content: left;
+  position: relative;
+}
+
+.areaTitle {
+  margin: 0;
+  font-size: 1.37em;
+}
 
 .layout {
   display: flex;

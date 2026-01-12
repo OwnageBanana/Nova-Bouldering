@@ -120,7 +120,7 @@ const toggleRows = () => {
 .lineName {
   /* column 2 (not square) */
   grid-area: 1 / 2 / 2 / 3;
-  background: linear-gradient(to right, var(--complement-light) 0%, var(--complement-light) 70%, var(--complement-dark) 88%);
+  background: linear-gradient(to right, var(--complement-lighter) 0%, var(--complement-light) 70%, var(--complement-dark) 88%);
   display: grid;
   align-items: center;   /* Vertical centering */
   justify-items: start;
@@ -140,6 +140,7 @@ const toggleRows = () => {
 
 .lineName.is-open {
   border-bottom-color: black;
+  background: var(--complement-dark) 88%;
 }
 
 /*Attributes, square*/
