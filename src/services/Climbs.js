@@ -41,7 +41,7 @@ async function DeleteClimb(id) {
     credentials: 'include',
   })
   if (!response.ok) throw new Error('Failed to delete climb')
-  return true
+  return response
 }
 
 export default { GetAllClimbs, GetClimb, CreateClimb, UpdateClimb, DeleteClimb }

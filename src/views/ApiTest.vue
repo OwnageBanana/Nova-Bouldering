@@ -138,7 +138,9 @@ async function deleteClimb() {
 
   try {
     // Fixed typo from "DELET" to "DELETE"
-    const res = ClimbsService.DeleteClimb(deleteId.value)
+    const res = await ClimbsService.DeleteClimb(parseInt(deleteId.value))
+    console.log(res)
+
     if (res.ok) {
       log.value = `Deleted ID: ${deleteId.value}`
     } else {
