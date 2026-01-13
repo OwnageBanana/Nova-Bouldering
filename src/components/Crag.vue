@@ -5,6 +5,7 @@ const props = defineProps(['zone', 'crag']);
 </script>
 
 <template>
+
     <div class="cragDiv">
         <div class="container1" @click="$router.push({ name: 'areas', params: { zoneName: zone, cragName: crag } })">
           <img src="@assets/images/LOC.jpg" style="border-radius: 12px;" />
