@@ -39,6 +39,7 @@ const config = defineConfig({
       },
     ],
   },
+  define: { __API_URL: '"https://novabouldering.ca/api"' },
 })
 
 export default config

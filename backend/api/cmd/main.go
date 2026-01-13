@@ -74,9 +74,12 @@ func main() {
 	// mux.HandleFunc("GET /boulders/{id}", service.GetBoulder)
 
 	mux.HandleFunc("GET /climbs", service.GetAllClimbs)
+	mux.HandleFunc("POST /climbs", service.CreateClimb)
+	mux.HandleFunc("GET /climbs/{id}", service.GetClimb)
+	mux.HandleFunc("DELETE /climbs/{id}", service.DeleteClimb)
+	mux.HandleFunc("POST /climbs/{id}", service.UpdateClimb)
 	mux.HandleFunc("GET /climbs/{id}/tags", service.GetAllClimbTags)
 	// mux.HandleFunc("POST /climbs", service.UpdateClimbsBatch)
-	mux.HandleFunc("POST /climbs/{id}", service.UpdateClimb)
 
 	mux.HandleFunc("GET /tags", service.GetAllTags)
 

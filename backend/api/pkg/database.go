@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/shopspring/decimal"
 )
@@ -155,7 +156,55 @@ type ClimbingTag struct {
 	ClimbId int32 `json:"ClimbId"`
 }
 
-func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
+func GetClimb(ctx context.Context, db *pgxpool.Pool, id int32) (*Climb, error) {
+	// 1. Define the query
+	query := `
+		SELECT
+			id,
+			boulder_id,
+			face,
+			name,
+			description,
+			grade,
+			line,
+			metadata
+		FROM climbs where id = $1`
+
+		var c Climb
+    var lineBytes, metaBytes []byte
+    err := db.QueryRow(ctx, query, id).Scan(
+        &c.Id,
+        &c.BoulderId,
+        &c.Face,
+        &c.Name,
+        &c.Description,
+        &c.Grade,
+        &lineBytes,
+        &metaBytes,
+    )
+
+    if err != nil {
+        if errors.Is(err, pgx.ErrNoRows) {
+            return nil, pgx.ErrNoRows
+        }
+        return nil, fmt.Errorf("error scanning climb: %w", err)
+    }
+
+    if len(lineBytes) > 0 {
+        if err := json.Unmarshal(lineBytes, &c.Line); err != nil {
+            return nil, err
+        }
+    }
+    if len(metaBytes) > 0 {
+        if err := json.Unmarshal(metaBytes, &c.Metadata); err != nil {
+            return nil, err
+        }
+    }
+
+    return &c, nil
+}
+
+func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {
 	// 1. Define the query
 	query := `
 		SELECT
@@ -175,7 +224,7 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
 	}
 	defer rows.Close()
 
-	var climbs []Climb
+	var climbs []*Climb
 
 	// 2. Iterate through rows
 	for rows.Next() {
@@ -211,7 +260,7 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]Climb, error) {
 			}
 		}
 
-		climbs = append(climbs, c)
+		climbs = append(climbs, &c)
 	}
 
 	if err = rows.Err(); err != nil {
@@ -239,15 +288,15 @@ func CreateClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING id`
 
-    // QueryRow lets us scan the new ID back into the pointer
-    err = db.QueryRow(ctx, query,
-        c.BoulderId, c.Face, c.Name, c.Description, c.Grade, lineJSON, metadataJSON,
-    ).Scan(&c.Id)
+	// QueryRow lets us scan the new ID back into the pointer
+	err = db.QueryRow(ctx, query,
+		c.BoulderId, c.Face, c.Name, c.Description, c.Grade, lineJSON, metadataJSON,
+	).Scan(&c.Id)
 
-    return err
+	return err
 }
 
-func DeleteClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
+func DeleteClimb(ctx context.Context, db *pgxpool.Pool, id int32) error {
 
 	// 2. Define the update query
 	query := `
@@ -256,7 +305,7 @@ func DeleteClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
 
 	// 3. Execute the query
 	result, err := db.Exec(ctx, query,
-		c.Id,
+		id,
 	)
 
 	if err != nil {
@@ -265,7 +314,7 @@ func DeleteClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
 	// 4. Verify a row was actually updated
 	rowsAffected := result.RowsAffected()
 	if rowsAffected == 0 {
-		return fmt.Errorf("no climb found with id %d", c.Id)
+		return fmt.Errorf("no climb found with id %d", id)
 	}
 	return err
 }
@@ -319,7 +368,6 @@ func UpdateClimb(ctx context.Context, db *pgxpool.Pool, c *Climb) error {
 
 	return nil
 }
-
 
 func GetAllTags(ctx context.Context, db *pgxpool.Pool) (tags []Tag, err error) {
 

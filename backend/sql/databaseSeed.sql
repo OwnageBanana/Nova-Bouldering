@@ -17,6 +17,7 @@ INSERT INTO ZONES (
 (7,'West Pennant', 'Southern Shore', 0,0),
 (8,'Terrence Bay', 'Southern Shore', 0,0)
 ;
+SELECT setval(pg_get_serial_sequence('ZONES', 'id'), coalesce(max(id),0) + 1, false) FROM ZONES;
 
 DELETE FROM CRAGS;
 INSERT INTO CRAGS (
@@ -31,6 +32,7 @@ INSERT INTO CRAGS (
 (2, 6,'Dover Island', 0,0),
 (3, 6,'Polly''s Cove', 0,0)
 ;
+SELECT setval(pg_get_serial_sequence('CRAGS', 'id'), coalesce(max(id),0) + 1, false) FROM CRAGS;
 
 -- (2,,'West Pennant', 'Southern Shore', 0,0, ''),
 -- (3,'Prospect', 'Southern Shore', 0,0, ''),
@@ -54,6 +56,7 @@ INSERT INTO AREAS (
 (1, 1,'Corn & Bung', 44.498149, -63.902713),
 (2, 1,'Gros Poisson & Jungle', 44.496239, -63.897941),
 (3, 1,'The Scoop', 44.494133, -63.892400);
+SELECT setval(pg_get_serial_sequence('AREAS', 'id'), coalesce(max(id),0) + 1, false) FROM AREAS;
 
 
 
@@ -70,6 +73,7 @@ INSERT INTO BOULDERS (
 (1, 1, 'Corn', 'Upper Boulder',  0,0),
 (2, 1, 'Bung', 'Lower Boulder', 0,0)
 ;
+SELECT setval(pg_get_serial_sequence('BOULDERS', 'id'), coalesce(max(id),0) + 1, false) FROM BOULDERS;
 
 
 
@@ -106,6 +110,7 @@ INSERT INTO CLIMBS (
 (18,2,'east','Dancing to the New Bolaro','V9'),
 (19,2,'south','Milking The Cow','V7'),
 (20,2,'south','Milking The Cow (Stand)','V5');
+SELECT setval(pg_get_serial_sequence('CLIMBS', 'id'), coalesce(max(id),0) + 1, false) FROM CLIMBS;
 
 
 
@@ -143,6 +148,7 @@ values
  (27,'Match'),
  (28,'Highball'),
  (29,'Traverse');
+SELECT setval(pg_get_serial_sequence('TAGS', 'id'), coalesce(max(id),0) + 1, false) FROM TAGS;
 
 -- tags associated to the specific climb.
 DELETE FROM CLIMB_TAGS;
@@ -171,3 +177,4 @@ INSERT INTO CLIMB_TAGS (
 (18,0,18),
 (19,0,19),
 (20,0,20);
+SELECT setval(pg_get_serial_sequence('CLIMB_TAGS', 'id'), coalesce(max(id),0) + 1, false) FROM CLIMB_TAGS;

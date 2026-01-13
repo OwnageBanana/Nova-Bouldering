@@ -42,7 +42,7 @@ CREATE TABLE AREAS (
     metadata JSONB default '{}'
 );
 
--- Upper Boulder West
+-- Upper Boulder
 CREATE TABLE BOULDERS (
     id SERIAL PRIMARY KEY,
     area_id INTEGER REFERENCES areas(id) ON DELETE CASCADE,
