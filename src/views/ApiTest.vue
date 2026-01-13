@@ -1,6 +1,11 @@
 <template>
   <div class="container">
     <h2>API Tester</h2>
+    auth lasts for 24 hours in a cookie. <br />
+    <div class="section">
+      <input v-model="authKey" type="password" placeholder="Auth Key" />
+      <button @click="auth">Get Write Access</button>
+    </div>
 
     <div class="section">
       <button @click="getAllClimbs">Get All Climbs</button>
@@ -18,13 +23,12 @@
       <input v-model="updateData.name" placeholder="New Name" />
       <input v-model="updateData.description" placeholder="New description" />
       <input
-        v-model="updateData.Face"
+        v-model="updateData.face"
         placeholder="New Face Direction (north,south,east,west,'')"
       />
       <input v-model="updateData.grade" placeholder="New grade" />
       <input v-model="updateData.line" placeholder="New line" />
       <input v-model="updateData.metadata" placeholder="New metadata" />
-
       <div>
         <button @click="getClimb">GetClimb from id</button>
         <button @click="updateClimb">Update Climb (POST)</button>
@@ -46,15 +50,30 @@
 <script setup>
 import { ref, reactive, toRaw } from 'vue'
 import ClimbsService from '@services/Climbs.js'
+import AuthService from '@services/Auth.js'
+
 const BASE_URL = '/climbs'
 const log = ref('Waiting for action...')
 const deleteId = ref('')
+const authKey = ref('')
 
 // Form Models
-const newClimb = reactive({ id: 0, name: '' })
-const updateData = reactive({ id: 0 })
+const newClimb = ref({ name: '', grade: '' })
+const updateData = ref({ id: 1 })
 
 // --- API Functions ---
+async function auth() {
+  if (!authKey.value) return alert('Key required')
+  try {
+    const data = await AuthService.Auth(authKey.value)
+    console.log(data.body.toString())
+    log.value = JSON.stringify(data, null, 2)
+    authKey.value = ''
+  } catch (err) {
+    console.log(err)
+    log.value = `Error: ${err.message}`
+  }
+}
 
 async function getAllClimbs() {
   try {
@@ -66,35 +85,44 @@ async function getAllClimbs() {
 }
 
 async function getClimb() {
-  if (!updateData.id) return alert('ID required')
+  if (!updateData.value.id) return alert('ID required')
   try {
-    const data = await ClimbsService.GetClimb(updateData.id)
-    updateData.Value = data
+    const data = await ClimbsService.GetClimb(updateData.value.id)
+    console.log(data)
+
+    updateData.value = data
+    updateData.value.line = JSON.stringify(data.line)
+    updateData.value.metadata = JSON.stringify(data.metadata)
     log.value = JSON.stringify(data, null, 2)
   } catch (err) {
     console.log(err)
-
     log.value = `Error: ${err.message}`
   }
 }
 
 async function createClimb() {
   try {
-    const data = await ClimbsService.CreateClimb(newClimb)
+    const data = await ClimbsService.CreateClimb(newClimb.value)
     updateData.value = data
     log.value = `Created:\n${JSON.stringify(data, null, 2)}`
   } catch (err) {
+    console.log(err)
     log.value = `Error: ${err.message}`
   }
 }
 
 async function updateClimb() {
-  if (!updateData.id) return alert('ID required')
+  if (!updateData.value.id) return alert('ID required')
 
   try {
-    const data = await ClimbsService.UpdateClimb(updateData)
+    updateData.value.line = JSON.parse(updateData.value.line)
+    updateData.value.metadata = JSON.parse(updateData.value.metadata)
+    const data = await ClimbsService.UpdateClimb(updateData.value)
+    updateData.value.line = JSON.stringify(data.line)
+    updateData.value.metadata = JSON.stringify(data.metadata)
     log.value = `Updated:\n${JSON.stringify(data, null, 2)}`
   } catch (err) {
+    console.log(err)
     log.value = `Error: ${err.message}`
   }
 }
@@ -111,6 +139,7 @@ async function deleteClimb() {
       log.value = 'Failed to delete'
     }
   } catch (err) {
+    console.log(err)
     log.value = `Error: ${err.message}`
   }
 }

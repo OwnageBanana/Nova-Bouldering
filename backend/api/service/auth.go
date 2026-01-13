@@ -42,10 +42,10 @@ func (svc *NBService) AuthWriteAccess(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     "auth_token",
 		Value:    cookieValue,
-		Path:     "/",
+		Path:     "/api",
 		HttpOnly: true,
-		// Secure:   true, // Set to true for Production (HTTPS)
-		// SameSite: http.SameSiteStrictMode,
+		Secure:   true, // Set to true for Production (HTTPS)
+		SameSite: http.SameSiteNoneMode,
 		Expires:  time.Now().Add(24 * time.Hour),
 	})
 

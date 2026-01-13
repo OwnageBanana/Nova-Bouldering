@@ -1,4 +1,4 @@
-const BASE_URL = __API_URL + '/climbs' // Change to your full API URL if needed
+const BASE_URL = __API_URL + '/climbs'
 
 async function GetAllClimbs() {
   const response = await fetch(`${BASE_URL}`)
@@ -15,6 +15,7 @@ async function GetClimb(id) {
 async function CreateClimb(climb) {
   const response = await fetch(BASE_URL, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(climb),
   })
@@ -26,6 +27,7 @@ async function UpdateClimb(climb) {
   // Using POST based on your mux definition (usually this is PUT or PATCH)
   const response = await fetch(`${BASE_URL}/${climb.id}`, {
     method: 'POST',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(climb),
   })
@@ -36,6 +38,7 @@ async function UpdateClimb(climb) {
 async function DeleteClimb(id) {
   const response = await fetch(`${BASE_URL}/${id}`, {
     method: 'DELETE',
+    credentials: 'include',
   })
   if (!response.ok) throw new Error('Failed to delete climb')
   return true

@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/rs/cors"
 
 	// "novabouldering.com/data/pkg/database"
 
@@ -55,7 +56,7 @@ func main() {
 	}
 	defer dbPool.Close()
 
-	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey }
+	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey}
 
 	mux := http.NewServeMux()
 
@@ -81,8 +82,22 @@ func main() {
 
 	mux.HandleFunc("GET /tags", service.GetAllTags)
 
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{
+			"http://localhost:8080", // Your frontend dev port
+			"https://novabouldering.com",
+			"https://www.novabouldering.com",
+			"https://novabouldering.ca",
+			"https://www.novabouldering.ca",
+		},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	})
+
+	handler := c.Handler(mux)
 	log.Println("Server starting on :8085")
-	if err := http.ListenAndServe(":8085", mux); err != nil {
+	if err := http.ListenAndServe(":8085", handler); err != nil {
 		log.Fatal(err)
 	}
 }

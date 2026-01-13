@@ -4,6 +4,7 @@ go 1.25.5
 
 require (
 	github.com/jackc/pgx/v5 v5.8.0
+	github.com/rs/cors v1.11.1
 	github.com/shopspring/decimal v1.4.0
 )
 
