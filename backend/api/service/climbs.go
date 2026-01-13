@@ -91,7 +91,7 @@ func (svc *NBService) GetAllClimbs(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	data, err := database.GetAllClimbs(ctx, svc.Postgres)
 	if err != nil {
-		log.Printf("failed query on get all: %v", err.Error())
+		log.Printf("failed query on get all climbs: %v", err.Error())
 		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
 		return
 	}
@@ -117,7 +117,7 @@ func (svc *NBService) GetClimb(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "", http.StatusNotFound)
 			return
 		}
-		log.Printf("failed query on get all: %v", err.Error())
+		log.Printf("failed query on get climb: %v", err.Error())
 		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
 		return
 	}

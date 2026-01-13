@@ -6,7 +6,7 @@ INSERT INTO ZONES (
     region,
     latitude,
     longitude
-    -- metadata
+    -- metadat1a
 ) values
 (1,'Herring Cove', 'Southern Shore', 44.577007, -63.550592),
 (2,'Chebucto Head', 'Southern Shore', 44.501763, -63.524395),

@@ -6,6 +6,9 @@ import Crags from '@views/Crags.vue'
 import Areas from '@components/Areas.vue'
 import Boulders from '@components/Boulders.vue'
 import CragTest from '@components/CragTest.vue'
+
+import ApiTest from '@views/ApiTest.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,6 +24,7 @@ const router = createRouter({
       props: true,
     },
     { path: '/cragtest', component: CragTest },
+    { path: '/apitest', component: ApiTest },
   ],
 })
 

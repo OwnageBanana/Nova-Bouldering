@@ -49,8 +49,6 @@ func main() {
 
 	connectionString := u.String()
 
-	fmt.Println("Safe Connection String:")
-	fmt.Println(connectionString)
 	dbPool, err := pgxpool.New(context.Background(), connectionString)
 	if err != nil {
 		log.Fatal(err)

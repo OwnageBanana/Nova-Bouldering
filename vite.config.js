@@ -18,12 +18,12 @@ const config = defineConfig({
         replacement: fileURLToPath(new URL('./src', import.meta.url)),
       },
       {
-        find: '@components',
-        replacement: fileURLToPath(new URL('./src/components', import.meta.url)),
-      },
-      {
         find: '@modules',
         replacement: fileURLToPath(new URL('./src/modules', import.meta.url)),
+      },
+      {
+        find: '@components',
+        replacement: fileURLToPath(new URL('./src/components', import.meta.url)),
       },
       {
         find: '@views',
@@ -36,6 +36,10 @@ const config = defineConfig({
       {
         find: '@layout',
         replacement: fileURLToPath(new URL('./src/components/layout', import.meta.url)),
+      },
+      {
+        find: '@services',
+        replacement: fileURLToPath(new URL('./src/services/', import.meta.url)),
       },
     ],
   },

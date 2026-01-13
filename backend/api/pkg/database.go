@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -170,38 +171,40 @@ func GetClimb(ctx context.Context, db *pgxpool.Pool, id int32) (*Climb, error) {
 			metadata
 		FROM climbs where id = $1`
 
-		var c Climb
-    var lineBytes, metaBytes []byte
-    err := db.QueryRow(ctx, query, id).Scan(
-        &c.Id,
-        &c.BoulderId,
-        &c.Face,
-        &c.Name,
-        &c.Description,
-        &c.Grade,
-        &lineBytes,
-        &metaBytes,
-    )
+	var c Climb
+	var lineBytes, metaBytes []byte
+	err := db.QueryRow(ctx, query, id).Scan(
+		&c.Id,
+		&c.BoulderId,
+		&c.Face,
+		&c.Name,
+		&c.Description,
+		&c.Grade,
+		&lineBytes,
+		&metaBytes,
+	)
 
-    if err != nil {
-        if errors.Is(err, pgx.ErrNoRows) {
-            return nil, pgx.ErrNoRows
-        }
-        return nil, fmt.Errorf("error scanning climb: %w", err)
-    }
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, pgx.ErrNoRows
+		}
+		return nil, fmt.Errorf("error scanning climb: %w", err)
+	}
 
-    if len(lineBytes) > 0 {
-        if err := json.Unmarshal(lineBytes, &c.Line); err != nil {
-            return nil, err
-        }
-    }
-    if len(metaBytes) > 0 {
-        if err := json.Unmarshal(metaBytes, &c.Metadata); err != nil {
-            return nil, err
-        }
-    }
+	if len(lineBytes) > 0 {
+		if err := json.Unmarshal(lineBytes, &c.Line); err != nil {
+			log.Printf("failed marshalling Lines: %v \n bytes: %#v", err, lineBytes)
+			return nil, err
+		}
+	}
+	if len(metaBytes) > 0 {
+		if err := json.Unmarshal(metaBytes, &c.Metadata); err != nil {
+			log.Printf("failed marshalling metadata: %v \n bytes: %#v", err, lineBytes)
+			return nil, err
+		}
+	}
 
-    return &c, nil
+	return &c, nil
 }
 
 func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {

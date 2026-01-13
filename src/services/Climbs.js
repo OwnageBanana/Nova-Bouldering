@@ -1,7 +1,7 @@
 const BASE_URL = __API_URL + '/climbs' // Change to your full API URL if needed
 
 async function GetAllClimbs() {
-  const response = await fetch(BASE_URL)
+  const response = await fetch(`${BASE_URL}`)
   if (!response.ok) throw new Error('Failed to fetch climbs')
   return await response.json()
 }
@@ -41,4 +41,4 @@ async function DeleteClimb(id) {
   return true
 }
 
-export { GetAllClimbs, GetClimb, CreateClimb, UpdateClimb, DeleteClimb }
+export default { GetAllClimbs, GetClimb, CreateClimb, UpdateClimb, DeleteClimb }

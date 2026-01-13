@@ -17,7 +17,7 @@ CREATE TABLE ZONES (
     description TEXT DEFAULT '',
     latitude DECIMAL(9,6) DEFAULT 0,
     longitude DECIMAL(9,6) DEFAULT 0,
-    metadata JSONB
+    metadata JSONB NOT NULL default '{}'
 );
 
 -- eg Land of Confusion
@@ -28,7 +28,7 @@ CREATE TABLE CRAGS (
     description TEXT DEFAULT '',
     latitude DECIMAL(9,6) DEFAULT 0,
     longitude DECIMAL(9,6) DEFAULT 0,
-    metadata JSONB default '{}'
+    metadata JSONB NOT NULL default '{}'
 );
 
 -- eg corn and Bung
@@ -39,7 +39,7 @@ CREATE TABLE AREAS (
     description TEXT DEFAULT '',
     latitude DECIMAL(9,6) DEFAULT 0,
     longitude DECIMAL(9,6) DEFAULT 0,
-    metadata JSONB default '{}'
+    metadata JSONB NOT NULL default '{}'
 );
 
 -- Upper Boulder
@@ -50,7 +50,7 @@ CREATE TABLE BOULDERS (
     description TEXT DEFAULT '',
     latitude DECIMAL(9,6) DEFAULT 0,
     longitude DECIMAL(9,6) DEFAULT 0,
-    metadata JSONB default '{}'
+    metadata JSONB NOT NULL default '{}'
 );
 
 CREATE TYPE DIRECTION AS ENUM ('north', 'south', 'east', 'west', '');
@@ -62,8 +62,8 @@ CREATE TABLE CLIMBS (
     name TEXT DEFAULT '',
     description TEXT DEFAULT '',
     grade TEXT DEFAULT 'V?', -- e.g., 'V5' or '7A'
-    line JSONB DEFAULT '[]',
-    metadata JSONB default '{}'
+    line JSONB NOT NULL DEFAULT '{}',
+    metadata JSONB NOT NULL default '{}'
 );
 
 CREATE TABLE TAGS (
