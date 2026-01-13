@@ -12,6 +12,11 @@
     </div>
 
     <div class="section">
+      <input
+        v-model="newClimb.boulder_id"
+        placeholder="boulder Id (required)"
+        title="its like a reference to the boulder this climb is on"
+      />
       <input v-model="newClimb.name" placeholder="Climb Name" />
       <input v-model="newClimb.grade" placeholder="Grade" />
       <button @click="createClimb">Create Climb</button>
@@ -19,7 +24,7 @@
 
     <div class="section">
       <input v-model="updateData.id" placeholder="ID to Update" />
-      <input v-model="updateData.boulder_id" placeholder="New boulder ref" />
+      <input v-model="updateData.boulder_id" placeholder="id boulder id" />
       <input v-model="updateData.name" placeholder="New Name" />
       <input v-model="updateData.description" placeholder="New description" />
       <input
@@ -102,6 +107,7 @@ async function getClimb() {
 
 async function createClimb() {
   try {
+    newClimb.value.boulder_id = parseInt(newClimb.value.boulder_id)
     const data = await ClimbsService.CreateClimb(newClimb.value)
     updateData.value = data
     log.value = `Created:\n${JSON.stringify(data, null, 2)}`

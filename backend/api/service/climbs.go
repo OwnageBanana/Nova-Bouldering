@@ -31,7 +31,7 @@ func (svc *NBService) CreateClimb(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	err := database.CreateClimb(ctx, svc.Postgres, &req.Climb)
 	if err != nil {
-		log.Printf("failed query on CreateClimb: %v", err.Error())
+		log.Printf("failed query on CreateClimb: %#v %v", req.Climb, err.Error())
 		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
 		return
 	}
