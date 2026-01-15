@@ -15,6 +15,43 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+type Image struct {
+	Id          int32  `json:"id"`
+	R2Key       string `json:"r2_key"`
+	Filename    string `json:"filename"`
+	ContentType string `json:"content_type"`
+	SizeBytes   int32  `json:"size_bytes"`
+	AltText     string `json:"alt_text"`
+}
+
+func CreateImage(ctx context.Context, db *pgxpool.Pool, img *Image) error {
+	query := `
+		INSERT INTO images (r2_key, filename, content_type, size_bytes, alt_text)
+		VALUES ($1, $2, $3, $4, $5)
+		RETURNING id`
+
+	err := db.QueryRow(ctx, query,
+		img.R2Key, img.Filename, img.ContentType, img.SizeBytes, img.AltText,
+	).Scan(&img.Id)
+
+	return err
+}
+
+func UpdateClimbImage(ctx context.Context, db *pgxpool.Pool, climbId int32, imageId int32) error {
+	query := `UPDATE climbs SET image_id = $1 WHERE id = $2`
+
+	result, err := db.Exec(ctx, query, imageId, climbId)
+	if err != nil {
+		return fmt.Errorf("error updating climb image: %w", err)
+	}
+
+	if result.RowsAffected() == 0 {
+		return fmt.Errorf("no climb found with id %d", climbId)
+	}
+
+	return nil
+}
+
 type Zone struct {
 	Id          int32           `json:"id"`
 	Name        string          `json:"name"`
@@ -23,6 +60,7 @@ type Zone struct {
 	Latitude    decimal.Decimal `json:"latitude"`
 	Longitude   decimal.Decimal `json:"longitude"`
 	Metadata    map[string]any  `json:"metadata"`
+	ImageURL    *string         `json:"image_url,omitempty"`
 }
 
 // -- eg Land of Confusion
@@ -34,6 +72,7 @@ type Crag struct {
 	Latitude    decimal.Decimal `json:"latitude"`
 	Longitude   decimal.Decimal `json:"longitude"`
 	Metadata    map[string]any  `json:"metadata"`
+	ImageURL    *string         `json:"image_url,omitempty"`
 }
 
 // -- eg corn and Bung
@@ -45,6 +84,7 @@ type Area struct {
 	Latitude    decimal.Decimal `json:"latitude"`
 	Longitude   decimal.Decimal `json:"longitude"`
 	Metadata    map[string]any  `json:"metadata"`
+	ImageURL    *string         `json:"image_url,omitempty"`
 }
 
 // -- Upper Boulder West
@@ -56,6 +96,7 @@ type Boulder struct {
 	Latitude    decimal.Decimal `json:"latitude"`
 	Longitude   decimal.Decimal `json:"longitude"`
 	Metadata    map[string]any  `json:"metadata"`
+	ImageURL    *string         `json:"image_url,omitempty"`
 }
 
 // CREATE TYPE DIRECTION AS ENUM ('north', 'south', 'east', 'west');
@@ -124,6 +165,7 @@ type Climb struct {
 	Grade       string         `json:"grade"`
 	Line        Route          `json:"line"`
 	Metadata    map[string]any `json:"metadata"`
+	ImageURL    *string        `json:"image_url,omitempty"`
 }
 
 type LineItems []LineItem
@@ -161,18 +203,22 @@ func GetClimb(ctx context.Context, db *pgxpool.Pool, id int32) (*Climb, error) {
 	// 1. Define the query
 	query := `
 		SELECT
-			id,
-			boulder_id,
-			face,
-			name,
-			description,
-			grade,
-			line,
-			metadata
-		FROM climbs where id = $1`
+			c.id,
+			c.boulder_id,
+			c.face,
+			c.name,
+			c.description,
+			c.grade,
+			c.line,
+			c.metadata,
+			i.r2_key
+		FROM climbs c
+		LEFT JOIN images i ON i.id = c.image_id
+		WHERE c.id = $1`
 
 	var c Climb
 	var lineBytes, metaBytes []byte
+	var imgKey sql.NullString
 	err := db.QueryRow(ctx, query, id).Scan(
 		&c.Id,
 		&c.BoulderId,
@@ -182,6 +228,7 @@ func GetClimb(ctx context.Context, db *pgxpool.Pool, id int32) (*Climb, error) {
 		&c.Grade,
 		&lineBytes,
 		&metaBytes,
+		&imgKey,
 	)
 
 	if err != nil {
@@ -203,6 +250,9 @@ func GetClimb(ctx context.Context, db *pgxpool.Pool, id int32) (*Climb, error) {
 			return nil, err
 		}
 	}
+	if imgKey.Valid {
+		c.ImageURL = &imgKey.String
+	}
 
 	return &c, nil
 }
@@ -211,15 +261,17 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {
 	// 1. Define the query
 	query := `
 		SELECT
-			id,
-			boulder_id,
-			face,
-			name,
-			description,
-			grade,
-			line,
-			metadata
-		FROM climbs`
+			c.id,
+			c.boulder_id,
+			c.face,
+			c.name,
+			c.description,
+			c.grade,
+			c.line,
+			c.metadata,
+			i.r2_key
+		FROM climbs c
+		LEFT JOIN images i ON i.id = c.image_id`
 
 	rows, err := db.Query(ctx, query)
 	if err != nil {
@@ -234,6 +286,7 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {
 		var c Climb
 		var lineBytes []byte // Temporary holder for the JSONB raw bytes
 		var metaBytes []byte // Temporary holder for the JSONB raw bytes
+		var imgKey sql.NullString
 
 		// 3. Scan into variables (use pointers for basic types, byte slices for JSON)
 		err := rows.Scan(
@@ -245,6 +298,7 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {
 			&c.Grade,
 			&lineBytes,
 			&metaBytes,
+			&imgKey,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning climb row: %w", err)
@@ -261,6 +315,10 @@ func GetAllClimbs(ctx context.Context, db *pgxpool.Pool) ([]*Climb, error) {
 			if err := json.Unmarshal(metaBytes, &c.Metadata); err != nil {
 				return nil, fmt.Errorf("error unmarshaling metadata json for climb %d: %w", c.Id, err)
 			}
+		}
+
+		if imgKey.Valid {
+			c.ImageURL = &imgKey.String
 		}
 
 		climbs = append(climbs, &c)
@@ -414,11 +472,12 @@ type BoulderNode struct {
 }
 
 func GetFullHierarchy(ctx context.Context, db *pgxpool.Pool) ([]*ZoneNode, error) {
-	// 1. Join all tables from top (Zones) to bottom (Climbs)
+	// 1. Join all tables from top (Zones) to bottom (Climbs), including images
 	query := `
 SELECT
         -- Zone (Always present, no Coalesce needed)
         z.id, z.name, z.region, z.description, z.latitude, z.longitude, z.metadata,
+        zi.r2_key,
 
         -- Crag (Left Join -> Might be NULL)
         COALESCE(c.id, 0) as id,
@@ -427,7 +486,8 @@ SELECT
         COALESCE(c.description, '') as description,
         COALESCE(c.latitude, 0) as latitude,
         COALESCE(c.longitude, 0) as longitude,
-        c.metadata, -- Metadata handles NULLs automatically in Go (reads as nil byte slice)
+        c.metadata,
+        ci.r2_key,
 
         -- Area
         COALESCE(a.id, 0) as id,
@@ -437,6 +497,7 @@ SELECT
         COALESCE(a.latitude, 0) as latitude,
         COALESCE(a.longitude, 0) as longitude,
         a.metadata,
+        ai.r2_key,
 
         -- Boulder
         COALESCE(b.id, 0) as id,
@@ -446,6 +507,7 @@ SELECT
         COALESCE(b.latitude, 0) as latitude,
         COALESCE(b.longitude, 0) as longitude,
         b.metadata,
+        bi.r2_key,
 
         -- Climb
         COALESCE(cl.id, 0) as id,
@@ -455,12 +517,18 @@ SELECT
         COALESCE(cl.description, '') as description,
         COALESCE(cl.grade, '') as grade,
         cl.line,
-        cl.metadata
+        cl.metadata,
+        cli.r2_key
     FROM zones z
+    LEFT JOIN images zi ON zi.id = z.image_id
     LEFT JOIN crags c ON c.zone_id = z.id
+    LEFT JOIN images ci ON ci.id = c.image_id
     LEFT JOIN areas a ON a.crag_id = c.id
+    LEFT JOIN images ai ON ai.id = a.image_id
     LEFT JOIN boulders b ON b.area_id = a.id
+    LEFT JOIN images bi ON bi.id = b.image_id
     LEFT JOIN climbs cl ON cl.boulder_id = b.id
+    LEFT JOIN images cli ON cli.id = cl.image_id
     ORDER BY z.id, c.id, a.id, b.id, cl.id;
 	`
 
@@ -494,19 +562,22 @@ SELECT
 		// Byte slices for JSON fields
 		var zMeta, cMeta, aMeta, bMeta, clMeta, clLine []byte
 
+		// Nullable strings for image r2_keys
+		var zImgKey, cImgKey, aImgKey, bImgKey, clImgKey sql.NullString
+
 		// 3. Scan all columns
 		// Note: We scan IDs into temp variables first to check for NULLs
 		err := rows.Scan(
 			// Zone
-			&zID, &z.Name, &z.Region, &z.Description, &z.Latitude, &z.Longitude, &zMeta,
+			&zID, &z.Name, &z.Region, &z.Description, &z.Latitude, &z.Longitude, &zMeta, &zImgKey,
 			// Crag
-			&cID, &c.ZoneId, &c.Name, &c.Description, &c.Latitude, &c.Longitude, &cMeta,
+			&cID, &c.ZoneId, &c.Name, &c.Description, &c.Latitude, &c.Longitude, &cMeta, &cImgKey,
 			// Area
-			&aID, &a.CragId, &a.Name, &a.Description, &a.Latitude, &a.Longitude, &aMeta,
+			&aID, &a.CragId, &a.Name, &a.Description, &a.Latitude, &a.Longitude, &aMeta, &aImgKey,
 			// Boulder
-			&bID, &b.AreaId, &b.Name, &b.Description, &b.Latitude, &b.Longitude, &bMeta,
+			&bID, &b.AreaId, &b.Name, &b.Description, &b.Latitude, &b.Longitude, &bMeta, &bImgKey,
 			// Climb
-			&clID, &cl.BoulderId, &cl.Face, &cl.Name, &cl.Description, &cl.Grade, &clLine, &clMeta,
+			&clID, &cl.BoulderId, &cl.Face, &cl.Name, &cl.Description, &cl.Grade, &clLine, &clMeta, &clImgKey,
 		)
 		if err != nil {
 			return nil, err
@@ -516,6 +587,9 @@ SELECT
 		z.Id = zID
 		if len(zMeta) > 0 {
 			_ = json.Unmarshal(zMeta, &z.Metadata)
+		}
+		if zImgKey.Valid {
+			z.ImageURL = &zImgKey.String
 		}
 
 		zoneNode, exists := zoneMap[z.Id]
@@ -532,6 +606,9 @@ SELECT
 		c.Id = int32(cID.Int32)
 		if len(cMeta) > 0 {
 			_ = json.Unmarshal(cMeta, &c.Metadata)
+		}
+		if cImgKey.Valid {
+			c.ImageURL = &cImgKey.String
 		}
 
 		if c.Id == 0 {
@@ -553,6 +630,9 @@ SELECT
 		if len(aMeta) > 0 {
 			_ = json.Unmarshal(aMeta, &a.Metadata)
 		}
+		if aImgKey.Valid {
+			a.ImageURL = &aImgKey.String
+		}
 		if a.Id == 0 {
 			continue
 		}
@@ -571,6 +651,9 @@ SELECT
 		b.Id = int32(bID.Int32)
 		if len(bMeta) > 0 {
 			_ = json.Unmarshal(bMeta, &b.Metadata)
+		}
+		if bImgKey.Valid {
+			b.ImageURL = &bImgKey.String
 		}
 		if b.Id == 0 {
 			continue
@@ -593,6 +676,9 @@ SELECT
 		}
 		if len(clLine) > 0 {
 			_ = json.Unmarshal(clLine, &cl.Line)
+		}
+		if clImgKey.Valid {
+			cl.ImageURL = &clImgKey.String
 		}
 
 		// Add climb to boulder (Climbs are leaves, no map needed unless deduping specific climbs)

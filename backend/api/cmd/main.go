@@ -11,9 +11,8 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/rs/cors"
 
-	// "novabouldering.com/data/pkg/database"
-
 	svc "novabouldering.ca/backend/api/service"
+	"novabouldering.ca/backend/api/storage"
 )
 
 func main() {
@@ -37,6 +36,10 @@ func main() {
 	if writeAcessKey == "" {
 		log.Fatal("NOVA_WRITE_ACESS_KEY environment variable is not set")
 	}
+	publicBaseURL := os.Getenv("NOVA_R2_PUBLIC_URL")
+	if publicBaseURL == "" {
+		log.Fatal("NOVA_R2_PUBLIC_URL environment variable is not set")
+	}
 
 	u := &url.URL{
 		Scheme: "postgres",
@@ -56,7 +59,12 @@ func main() {
 	}
 	defer dbPool.Close()
 
-	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey}
+	storageService, err := storage.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey, Storage: storageService, PublicBaseURL: publicBaseURL}
 
 	mux := http.NewServeMux()
 
@@ -78,6 +86,8 @@ func main() {
 	mux.HandleFunc("DELETE /climbs/{id}", service.DeleteClimb)
 	mux.HandleFunc("POST /climbs/{id}", service.UpdateClimb)
 	mux.HandleFunc("GET /climbs/{id}/tags", service.GetAllClimbTags)
+	mux.HandleFunc("POST /climbs/images", service.UploadClimbImage)
+	mux.HandleFunc("PUT /climbs/{id}/image", service.UpdateClimbImage)
 	// mux.HandleFunc("POST /climbs", service.UpdateClimbsBatch)
 
 	mux.HandleFunc("GET /tags", service.GetAllTags)

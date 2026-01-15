@@ -1,4 +1,4 @@
-package service
+package servicepackage service
 
 import (
 	"encoding/json"
@@ -11,9 +11,8 @@ import (
 	database "novabouldering.ca/backend/api/pkg"
 )
 
-type PutClimbRequest struct {
-	database.Climb
-	tags []*database.Tag
+type PutBoulderRequest struct {
+	database.boulder
 }
 
 func (svc *NBService) CreateClimb(w http.ResponseWriter, r *http.Request) {
