@@ -13,33 +13,50 @@ import (
 )
 
 type StorageService struct {
-	Client   *s3.Client
-	Bucket   string
-	Endpoint string
+	Client      *s3.Client
+	Bucket      string
+	Endpoint    string
+	TokenValue  string
 }
 
 func Init() (*StorageService, error) {
-	bucket := os.Getenv("NOVA_R2_BUCKET")
-	if bucket == "" {
-		return nil, fmt.Errorf("NOVA_R2_BUCKET environment variable is not set")
-	}
+	// bucket := os.Getenv("NOVA_R2_BUCKET")
+	// if bucket == "" {
+	// 	return nil, fmt.Errorf("NOVA_R2_BUCKET environment variable is not set")
+	// }
 
-	accountID := os.Getenv("NOVA_R2_ACCOUNT_ID")
-	if accountID == "" {
-		return nil, fmt.Errorf("NOVA_R2_ACCOUNT_ID environment variable is not set")
-	}
+	// accountID := os.Getenv("NOVA_R2_ACCOUNT_ID")
+	// if accountID == "" {
+	// 	return nil, fmt.Errorf("NOVA_R2_ACCOUNT_ID environment variable is not set")
+	// }
 
-	accessKeyID := os.Getenv("NOVA_R2_ACCESS_KEY_ID")
+	// accessKeyID := os.Getenv("NOVA_R2_ACCESS_KEY_ID")
+	// if accessKeyID == "" {
+	// 	return nil, fmt.Errorf("NOVA_R2_ACCESS_KEY_ID environment variable is not set")
+	// }
+
+	// secretAccessKey := os.Getenv("NOVA_R2_SECRET_ACCESS_KEY")
+	// if secretAccessKey == "" {
+	// 	return nil, fmt.Errorf("NOVA_R2_SECRET_ACCESS_KEY environment variable is not set")
+	// }
+	endpoint := os.Getenv("NOVA_R2_ENDPOINT")
+	if endpoint == "" {
+		return nil, fmt.Errorf("NOVA_R2_ENDPOINT environment variable is not set")
+	}
+	tokenValue := os.Getenv("NOVA_R2_TOKEN_VALUE") // ig this is the user token instead of account token
+	if tokenValue == "" {
+		return nil, fmt.Errorf("NOVA_R2_TOKEN_VALUE environment variable is not set")
+	}
+	accessKeyID := os.Getenv("NOVA_R2_ACCESS_ID")
 	if accessKeyID == "" {
-		return nil, fmt.Errorf("NOVA_R2_ACCESS_KEY_ID environment variable is not set")
+		return nil, fmt.Errorf("NOVA_R2_ACCESS_ID environment variable is not set")
 	}
-
 	secretAccessKey := os.Getenv("NOVA_R2_SECRET_ACCESS_KEY")
 	if secretAccessKey == "" {
 		return nil, fmt.Errorf("NOVA_R2_SECRET_ACCESS_KEY environment variable is not set")
 	}
-
-	endpoint := fmt.Sprintf("https://%s.r2.cloudflarestorage.com", accountID)
+	bucket := "nova-bouldering";
+	// endpoint := fmt.Sprintf("https://%s.r2.cloudflarestorage.com", accountID)
 
 	cfg, err := config.LoadDefaultConfig(context.Background(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(accessKeyID, secretAccessKey, "")),
@@ -54,9 +71,10 @@ func Init() (*StorageService, error) {
 	})
 
 	return &StorageService{
-		Client:   client,
-		Bucket:   bucket,
-		Endpoint: endpoint,
+		Client:     client,
+		Bucket:     bucket,
+		Endpoint:   endpoint,
+		TokenValue: tokenValue,
 	}, nil
 }
 

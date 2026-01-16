@@ -45,6 +45,22 @@
       <button @click="deleteClimb">Delete Climb</button>
     </div>
 
+    <div style="display: flex; align-items: flex-start; gap: 20px">
+      <form @submit.prevent="uploadImage">
+        <input type="file" ref="fileInput" accept="image/*" @change="handleFileChange" required />
+        <button type="submit" :disabled="isUploading">
+          {{ isUploading ? 'Uploading...' : 'Upload Image' }}
+        </button>
+      </form>
+
+      <img
+        v-if="previewUrl"
+        :src="previewUrl"
+        alt="Preview"
+        style="height: 100px; width: auto; object-fit: cover; border-radius: 4px"
+      />
+    </div>
+
     <div class="output">
       <h3>Response Log:</h3>
       <pre>{{ log }}</pre>
@@ -149,6 +165,47 @@ async function deleteClimb() {
   } catch (err) {
     console.log(err)
     log.value = `Error: ${err.message}`
+  }
+}
+
+// Upload
+
+const fileInput = ref(null)
+const isUploading = ref(false)
+const previewUrl = ref(null)
+
+// Create preview when file is selected
+const handleFileChange = (e) => {
+  const file = e.target.files[0]
+  if (file) {
+    previewUrl.value = URL.createObjectURL(file)
+  } else {
+    previewUrl.value = null
+  }
+}
+
+const uploadImage = async () => {
+  const file = fileInput.value.files[0]
+  if (!file) return
+
+  const formData = new FormData()
+  formData.append('image', file)
+
+  isUploading.value = true
+
+  try {
+    const response = await fetch('http://localhost:8085/climbs/images', {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!response.ok) throw new Error(`Server error: ${response.status}`)
+
+    alert('Upload successful!')
+  } catch (error) {
+    console.error('Upload failed:', error)
+  } finally {
+    isUploading.value = false
   }
 }
 </script>

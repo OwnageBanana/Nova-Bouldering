@@ -4,6 +4,9 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
+let apiURL = import.meta?.env?.PROD ? '"https://novabouldering.ca/api"' : '"http://localhost:8085"'
+console.log('api url:', apiURL)
+
 // https://vite.dev/config/
 const config = defineConfig({
   server: { port: 8080 },
@@ -43,7 +46,9 @@ const config = defineConfig({
       },
     ],
   },
-  define: { __API_URL: '"https://novabouldering.ca/api"' },
+  define: {
+    __API_URL: apiURL,
+  },
 })
 
 export default config

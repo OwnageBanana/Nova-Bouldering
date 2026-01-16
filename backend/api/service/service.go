@@ -15,7 +15,7 @@ type NBService struct {
 	Storage        *storage.StorageService
 	WriteAccessKey string
 	ServerSecret   string
-	PublicBaseURL  string // Base URL for public R2 bucket access (e.g., "https://pub-xxx.r2.dev")
+	// PublicBaseURL  string // Base URL for public R2 bucket access (e.g., "https://pub-xxx.r2.dev")
 }
 
 func (svc *NBService) GetAll(w http.ResponseWriter, r *http.Request) {
@@ -50,9 +50,10 @@ func (svc *NBService) addImageURLsToHierarchy(zones []*database.ZoneNode) {
 }
 
 func (svc *NBService) prefixImageURL(url *string) {
-	if url != nil && *url != "" && svc.PublicBaseURL != "" {
-		*url = svc.PublicBaseURL + "/" + *url
-	}
+		if url != nil {*url = "https://images.novabouldering.ca/" + *url}
+	// if url != nil && *url != "" && svc.PublicBaseURL != "" {
+	// 	*url = svc.PublicBaseURL + "/" + *url
+	// }
 }
 
 // mux.HandleFunc("GET /climbs/{id}/tags", service.GetAllClimbTags)

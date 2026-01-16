@@ -36,11 +36,12 @@ func main() {
 	if writeAcessKey == "" {
 		log.Fatal("NOVA_WRITE_ACESS_KEY environment variable is not set")
 	}
-	publicBaseURL := os.Getenv("NOVA_R2_PUBLIC_URL")
-	if publicBaseURL == "" {
-		log.Fatal("NOVA_R2_PUBLIC_URL environment variable is not set")
-	}
+	// publicBaseURL := os.Getenv("NOVA_R2_PUBLIC_URL")
+	// if publicBaseURL == "" {
+	// 	log.Fatal("NOVA_R2_PUBLIC_URL environment variable is not set")
+	// }
 
+	// properly format for connection. it escapes special characters
 	u := &url.URL{
 		Scheme: "postgres",
 		User:   url.UserPassword(dbUser, dbPass),
@@ -57,6 +58,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	defer dbPool.Close()
 
 	storageService, err := storage.Init()
@@ -64,7 +66,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	service := svc.NBService{Postgres: dbPool, WriteAccessKey: writeAcessKey, Storage: storageService, PublicBaseURL: publicBaseURL}
+	service := svc.NBService{
+		Postgres:       dbPool,
+		WriteAccessKey: writeAcessKey,
+		Storage:        storageService,
+	}
 
 	mux := http.NewServeMux()
 
@@ -95,6 +101,7 @@ func main() {
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{
 			"http://localhost:8080", // Your frontend dev port
+			"http://localhost:8085", // Your frontend dev port
 			"https://novabouldering.com",
 			"https://www.novabouldering.com",
 			"https://novabouldering.ca",

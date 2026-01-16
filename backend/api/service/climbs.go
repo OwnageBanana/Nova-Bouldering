@@ -183,7 +183,7 @@ func (svc *NBService) UploadClimbImage(w http.ResponseWriter, r *http.Request) {
 		Filename string `json:"filename"`
 	}{
 		Id:       img.Id,
-		ImageURL: svc.PublicBaseURL + "/" + r2Key,
+		ImageURL: "https://images.novabouldering.ca/" + r2Key,
 		Filename: img.Filename,
 	}
 

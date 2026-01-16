@@ -8,6 +8,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -24,7 +26,6 @@ func (svc *NBService) AuthWriteAccess(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 1. Validate the provided key
 	if req.Key != svc.WriteAccessKey {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
@@ -35,19 +36,30 @@ func (svc *NBService) AuthWriteAccess(w http.ResponseWriter, r *http.Request) {
 	h.Write([]byte(payload))
 	signature := hex.EncodeToString(h.Sum(nil))
 
-	// 3. Create the combined value (payload.signature)
 	cookieValue := fmt.Sprintf("%s.%s", payload, signature)
+	host, _, _ := net.SplitHostPort(r.Host)
 
-	// 4. Set the cookie
-	http.SetCookie(w, &http.Cookie{
-		Name:     "auth_token",
-		Value:    cookieValue,
-		Path:     "/api",
-		HttpOnly: true,
-		Secure:   true, // Set to true for Production (HTTPS)
-		SameSite: http.SameSiteNoneMode,
-		Expires:  time.Now().Add(24 * time.Hour),
-	})
+	if host == "localhost" {
+		http.SetCookie(w, &http.Cookie{
+			Name:        "auth_token",
+			Value:       cookieValue,
+			Path:        "/",
+			HttpOnly:    true,
+			Secure:      false,
+			SameSite:    http.SameSiteNoneMode,
+			Expires:     time.Now().Add(24 * time.Hour),
+		})
+	} else {
+		http.SetCookie(w, &http.Cookie{
+			Name:     "auth_token",
+			Value:    cookieValue,
+			Path:     "/api",
+			HttpOnly: true,
+			Secure:   true,
+			SameSite: http.SameSiteStrictMode,
+			Expires:  time.Now().Add(24 * time.Hour),
+		})
+	}
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("Access granted"))
@@ -57,18 +69,21 @@ func (svc *NBService) AuthWriteAccess(w http.ResponseWriter, r *http.Request) {
 func (svc *NBService) ValidateWriteAccess(r *http.Request) error {
 	cookie, err := r.Cookie("auth_token")
 	if err != nil {
+		log.Print("failed auth request, missing cookie")
 		return errors.New("missing auth cookie")
 	}
 
 	// 1. Split payload and signature
 	parts := strings.Split(cookie.Value, ".")
 	if len(parts) != 2 {
+		log.Print("failed auth request, invalid cookie")
 		return errors.New("invalid cookie format")
 	}
 
 	payload := parts[0]
 	providedSignature, err := hex.DecodeString(parts[1])
 	if err != nil {
+		log.Print("failed auth request, invalid signature")
 		return errors.New("invalid signature encoding")
 	}
 
@@ -79,11 +94,13 @@ func (svc *NBService) ValidateWriteAccess(r *http.Request) error {
 
 	// 3. Constant-time comparison to prevent timing attacks
 	if subtle.ConstantTimeCompare(providedSignature, expectedSignature) != 1 {
+		log.Print("failed auth request, invalid signature")
 		return errors.New("invalid signature")
 	}
 
 	// 4. Optional: Verify the payload content
 	if payload != "write-access" {
+		log.Print("failed auth request, invalid permissions")
 		return errors.New("invalid permissions")
 	}
 

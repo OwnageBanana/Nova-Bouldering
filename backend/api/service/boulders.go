@@ -1,4 +1,4 @@
-package servicepackage service
+package service
 
 import (
 	"encoding/json"
@@ -12,10 +12,10 @@ import (
 )
 
 type PutBoulderRequest struct {
-	database.boulder
+	database.Boulder
 }
 
-func (svc *NBService) CreateClimb(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) CreateBoulder(w http.ResponseWriter, r *http.Request) {
 
 	if err := svc.ValidateWriteAccess(r); err != nil {
 		log.Printf("Failed auth validation: %#v ", err)
@@ -39,7 +39,7 @@ func (svc *NBService) CreateClimb(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&req.Climb)
 }
 
-func (svc *NBService) UpdateClimb(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) UpdateBoulder(w http.ResponseWriter, r *http.Request) {
 
 	if err := svc.ValidateWriteAccess(r); err != nil {
 		log.Printf("Failed auth validation: %#v ", err)
@@ -63,7 +63,7 @@ func (svc *NBService) UpdateClimb(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(&req.Climb)
 }
 
-func (svc *NBService) DeleteClimb(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) DeleteBoulder(w http.ResponseWriter, r *http.Request) {
 
 	if err := svc.ValidateWriteAccess(r); err != nil {
 		log.Printf("Failed auth validation: %#v ", err)
@@ -87,7 +87,7 @@ func (svc *NBService) DeleteClimb(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (svc *NBService) GetAllClimbs(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) GetAllBoulders(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	data, err := database.GetAllClimbs(ctx, svc.Postgres)
 	if err != nil {
@@ -102,7 +102,7 @@ func (svc *NBService) GetAllClimbs(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func (svc *NBService) GetClimb(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) GetBoulder(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	id, err := strconv.ParseInt(idStr, 10, 32)
 	if err != nil {
@@ -130,7 +130,7 @@ func (svc *NBService) GetClimb(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func (svc *NBService) UploadClimbImage(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) UploadBoulderImage(w http.ResponseWriter, r *http.Request) {
 	if err := svc.ValidateWriteAccess(r); err != nil {
 		log.Printf("Failed auth validation: %#v ", err)
 		http.Error(w, "401 not authorized", http.StatusUnauthorized)
@@ -182,7 +182,7 @@ func (svc *NBService) UploadClimbImage(w http.ResponseWriter, r *http.Request) {
 		Filename string `json:"filename"`
 	}{
 		Id:       img.Id,
-		ImageURL: svc.PublicBaseURL + "/" + r2Key,
+		ImageURL: "https://images.novabouldering.ca/" + r2Key,
 		Filename: img.Filename,
 	}
 
@@ -190,7 +190,7 @@ func (svc *NBService) UploadClimbImage(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 }
 
-func (svc *NBService) UpdateClimbImage(w http.ResponseWriter, r *http.Request) {
+func (svc *NBService) UpdateBoulderImage(w http.ResponseWriter, r *http.Request) {
 	if err := svc.ValidateWriteAccess(r); err != nil {
 		log.Printf("Failed auth validation: %#v ", err)
 		http.Error(w, "401 not authorized", http.StatusUnauthorized)
