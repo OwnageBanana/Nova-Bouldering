@@ -4,7 +4,12 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
-let apiURL = import.meta?.env?.PROD ? '"https://novabouldering.ca/api"' : '"http://localhost:8085"'
+console.log(process.env.NODE_ENV)
+
+let apiURL =
+  process.env.NODE_ENV == 'production'
+    ? '"https://novabouldering.ca/api"'
+    : '"http://localhost:8085"'
 console.log('api url:', apiURL)
 
 // https://vite.dev/config/

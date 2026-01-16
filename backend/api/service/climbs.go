@@ -16,6 +16,34 @@ type PutClimbRequest struct {
 	tags []*database.Tag
 }
 
+func (svc *NBService) GetClimb(w http.ResponseWriter, r *http.Request) {
+	idStr := r.PathValue("id")
+	id, err := strconv.ParseInt(idStr, 10, 32)
+	if err != nil {
+		http.Error(w, "Invalid ID format", http.StatusBadRequest)
+		return
+	}
+	if id == 0 {
+		http.Error(w, "Invalid request, no Id provided", http.StatusBadRequest)
+		return
+	}
+	ctx := r.Context()
+	data, err := database.GetClimb(ctx, svc.Postgres, int32(id))
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			http.Error(w, "", http.StatusNotFound)
+			return
+		}
+		log.Printf("failed query on get climb: %v", err.Error())
+		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
+		return
+	}
+	svc.prefixImageURL(data.ImageURL)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(data)
+}
+
 func (svc *NBService) CreateClimb(w http.ResponseWriter, r *http.Request) {
 
 	if err := svc.ValidateWriteAccess(r); err != nil {
@@ -103,33 +131,6 @@ func (svc *NBService) GetAllClimbs(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(data)
 }
 
-func (svc *NBService) GetClimb(w http.ResponseWriter, r *http.Request) {
-	idStr := r.PathValue("id")
-	id, err := strconv.ParseInt(idStr, 10, 32)
-	if err != nil {
-		http.Error(w, "Invalid ID format", http.StatusBadRequest)
-		return
-	}
-	if id == 0 {
-		http.Error(w, "Invalid request, no Id provided", http.StatusBadRequest)
-		return
-	}
-	ctx := r.Context()
-	data, err := database.GetClimb(ctx, svc.Postgres, int32(id))
-	if err != nil {
-		if err == pgx.ErrNoRows {
-			http.Error(w, "", http.StatusNotFound)
-			return
-		}
-		log.Printf("failed query on get climb: %v", err.Error())
-		http.Error(w, "500 internal Server error: Failed to get database info", http.StatusInternalServerError)
-		return
-	}
-	svc.prefixImageURL(data.ImageURL)
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
-}
 
 func (svc *NBService) UploadClimbImage(w http.ResponseWriter, r *http.Request) {
 	if err := svc.ValidateWriteAccess(r); err != nil {

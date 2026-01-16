@@ -184,6 +184,8 @@ const handleFileChange = (e) => {
   }
 }
 
+const BASE_URL = __API_URL + '/climbs'
+
 const uploadImage = async () => {
   const file = fileInput.value.files[0]
   if (!file) return

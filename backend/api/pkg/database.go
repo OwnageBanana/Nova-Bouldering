@@ -165,6 +165,7 @@ type Climb struct {
 	Grade       string         `json:"grade"`
 	Line        Route          `json:"line"`
 	Metadata    map[string]any `json:"metadata"`
+	// non db property
 	ImageURL    *string        `json:"image_url,omitempty"`
 }
 
