@@ -1,5 +1,9 @@
 # Nova-Bouldering
 
+# Abandoned project in leu of nsboudering.ca being launched
+
+This project was stared before word got to us about another project that was started a couple months earlier called [nsbouldering.ca](https://nsbouldering.ca/). We have no reason to have 2 on-going community projects like this so we'll be supporting the new project in whatever capacity they need.
+
 fully open and community driven bouldering topo directory for Nova Scotia canada
 
 ## Recommended IDE Setup
